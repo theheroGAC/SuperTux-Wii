@@ -84,6 +84,9 @@ option(ENABLE_OPENGL "Enable OpenGL support" ON)
 
 # Compiler Warning Options
 option(WARNINGS "Enable extra compiler warnings (-Wall -Wextra)" ON)
+if(WARNINGS)
+  add_compile_options(-Wall -Wextra)
+endif()
 
 # Add module path for custom Find modules, toolchains, and platform files
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -202,10 +205,6 @@ if(ENABLE_WII)
   endif()
 
   # Compile options
-  if(WARNINGS)
-    target_compile_options(${PROJECT_NAME}.elf PRIVATE -Wall -Wextra)
-  endif()
-  
   target_compile_options(${PROJECT_NAME}.elf PRIVATE
     $<$<CONFIG:Debug>:-g -O0 -DDEBUG>
     $<$<CONFIG:Release>:-O3 -flto>
