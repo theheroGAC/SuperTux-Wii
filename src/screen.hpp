@@ -49,7 +49,7 @@ void drawgradient(Color top_clr, Color bot_clr); // Draws a vertical gradient
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a); // Fills a rectangle with a solid color
 void updatescreen(void); // Updates the screen
 void flipscreen(void); // Flips the screen buffers
-void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h); // Updates a rectangular area of the screen
+
 void fadeout(); // Fades the screen out to black
 
 #endif /* SUPERTUX_SCREEN_H */

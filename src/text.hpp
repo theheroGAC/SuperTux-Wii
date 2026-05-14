@@ -84,7 +84,7 @@ class Text
     std::unordered_map<std::string, CachedTextRun> m_text_cache;
 
     // Helper to build cached text
-    void build_cached_text(Surface* pchars, std::string_view text, int x, int y, CachedTextRun& run);
+    void build_cached_text(Surface* pchars, std::string_view text, CachedTextRun& run);
 #endif
 
   public:
@@ -104,8 +104,6 @@ class Text
     void draw_chars(Surface* pchars, std::string_view text, int x, int y, int update = NO_UPDATE);
     void drawf(std::string_view text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize, int update = NO_UPDATE);
     void draw_align(std::string_view text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize = 1, int update = NO_UPDATE);
-    void erasetext(std::string_view text, int x, int y, Surface* surf, int update, int shadowsize);
-    void erasecenteredtext(std::string_view text, int y, Surface* surf, int update, int shadowsize);
 };
 
 #endif /*SUPERTUX_TEXT_H*/

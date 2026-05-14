@@ -365,7 +365,7 @@ void draw_demo(GameSession* session, float frame_ratio)
 
 static void processTitleInput();
 static void handleMenuActions();
-static void renderTitleScene(float frame_ratio);
+static void renderTitleScene();
 
 static void processTitleInput()
 {
@@ -470,7 +470,7 @@ static void handleMenuActions()
   }
 }
 
-static void renderTitleScene(float frame_ratio)
+static void renderTitleScene()
 {
   // Draw the logo if on the main menu
   if (Menu::current() == main_menu)
@@ -591,7 +591,7 @@ void title(void)
 
     handleMenuActions();
 
-    renderTitleScene(frame_ratio); // Pass frame_ratio to the render function
+    renderTitleScene();
 
     // Set the time of the last update and the time of the current update
     last_update_time = update_time;

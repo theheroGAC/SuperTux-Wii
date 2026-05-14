@@ -232,7 +232,7 @@ void Text::draw(std::string_view text, int x, int y, int shadowsize, int update)
  * Build vertex array for a text run and cache it.
  * NOTE: Vertices are built relative to (0,0) to allow reuse via glTranslate.
  */
-void Text::build_cached_text(Surface* pchars, std::string_view text, int x, int y, CachedTextRun& run)
+void Text::build_cached_text(Surface* pchars, std::string_view text, CachedTextRun& run)
 {
   run.text = text;
   run.x = 0; // Always build at origin
@@ -357,7 +357,7 @@ void Text::draw_chars_batched(Surface* pchars, std::string_view text, int x, int
     {
       // Cache miss or dirty - rebuild vertices
       CachedTextRun new_run;
-      build_cached_text(pchars, text, 0, 0, new_run);
+      build_cached_text(pchars, text, new_run);
       m_text_cache[cache_key] = std::move(new_run);
       it = m_text_cache.find(cache_key);
     }
@@ -369,7 +369,7 @@ void Text::draw_chars_batched(Surface* pchars, std::string_view text, int x, int
     // --- VOLATILE PATH (Counters, Timers) ---
     // Rebuild every frame into a static reusable buffer.
     // This avoids map lookups and cache management overhead for rapidly changing numbers.
-    build_cached_text(pchars, text, 0, 0, volatile_run);
+    build_cached_text(pchars, text, volatile_run);
     vertices_to_draw = &volatile_run.vertices;
   }
 
@@ -579,58 +579,6 @@ void Text::drawf(std::string_view text, int x, int y, TextHAlign halign, TextVAl
 
   // Draw the text at the calculated position
   draw(text, x, y, shadowsize, update);
-}
-
-/**
- * Erase text by drawing the background over it.
- *
- * @param text The text to erase.
- * @param x X-coordinate of the text.
- * @param y Y-coordinate of the text.
- * @param ptexture Background texture to draw over the text.
- * @param update Whether the screen should be updated.
- * @param shadowsize Size of the shadow effect.
- */
-void Text::erasetext(std::string_view text, int x, int y, Surface* ptexture, int update, int shadowsize)
-{
-  // Erase text by drawing the background texture over it
-  SDL_Rect dest;
-  size_t text_len = text.length();
-
-  dest.x = x;
-  dest.y = y;
-  dest.w = text_len * w + shadowsize;
-  dest.h = h;
-
-  // Clamp the width to the screen width
-  if (dest.w > screen->w)
-  {
-    dest.w = screen->w;
-  }
-
-  ptexture->draw_part(dest.x, dest.y, dest.x, dest.y, dest.w, dest.h, 255, update);
-
-  // Update the screen region if needed
-  if (update == UPDATE)
-  {
-    update_rect(screen, dest.x, dest.y, dest.w, dest.h);
-  }
-}
-
-/**
- * Erase centered text on the screen.
- *
- * @param text The text to erase.
- * @param y Y-coordinate of the text.
- * @param ptexture Background texture to draw over the text.
- * @param update Whether the screen should be updated.
- * @param shadowsize Size of the shadow effect.
- */
-void Text::erasecenteredtext(std::string_view text, int y, Surface* ptexture, int update, int shadowsize)
-{
-  // Erase text centered horizontally on the screen
-  size_t text_len = text.length();
-  erasetext(text, screen->w / 2 - (text_len * 8), y, ptexture, update, shadowsize);
 }
 
 /**

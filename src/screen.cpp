@@ -355,19 +355,6 @@ void fadeout()
   flipscreen();
 }
 
-/* --- UPDATE A RECTANGLE ON SCREEN --- */
-/**
- * Updates a specific rectangle on the screen.
- * Uses SDL_Flip for non-OpenGL rendering.
- */
-void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h)
-{
-  if (!use_gl)
-  {
-    SDL_RenderPresent(renderer);
-  }
-}
-
 /* --- UPDATE SCREEN --- */
 /**
  * Updates the entire screen.

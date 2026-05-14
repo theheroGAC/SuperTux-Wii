@@ -205,7 +205,7 @@ void Player::level_begin()
  * The main update function for the Player object, called once per frame.
  * @param frame_ratio The time delta for the current frame.
  */
-void Player::action(float frame_ratio)
+void Player::action(float /*frame_ratio*/)
 {
   // Update collision caches at the start of the frame
   m_on_ground_cache = check_on_ground(base);

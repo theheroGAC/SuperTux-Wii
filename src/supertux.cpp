@@ -50,6 +50,9 @@ int main(int argc, char ** argv)
 
 #ifdef __WII__
   // Wii-specific setup for FAT library and USB disk handling.
+  // argc/argv are unused on Wii since parseargs() is not called here.
+  (void)argc;
+  (void)argv;
   sleep(1);  // Delay to allow USB disks behind hubs to initialize.
   bool res = fatInitDefault();
   if (res == 0)
