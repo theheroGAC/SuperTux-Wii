@@ -650,15 +650,15 @@ void display_text_file(std::string_view file, Surface* surface, float scroll_spe
   {
     if (line.empty())
     {
-      return { blue_text, "", blue_text->h, 0 };
+      return { blue_text.get(), "", blue_text->h, 0 };
     }
     switch (line[0])
     {
       // Text object and the appropriate shadow_size for its internal shadow.
-      case '-': return { white_big_text, line.substr(1), white_big_text->h, 3 };
-      case '\t': return { white_text, line.substr(1), white_text->h, 1 };
-      case ' ': return { white_small_text, line.substr(1), white_small_text->h, 1 };
-      default: return { blue_text, line, blue_text->h, 1 };
+      case '-': return { white_big_text.get(), line.substr(1), white_big_text->h, 3 };
+      case '\t': return { white_text.get(), line.substr(1), white_text->h, 1 };
+      case ' ': return { white_small_text.get(), line.substr(1), white_small_text->h, 1 };
+      default: return { blue_text.get(), line, blue_text->h, 1 };
     }
   };
 

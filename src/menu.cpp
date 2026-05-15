@@ -532,7 +532,7 @@ void Menu::draw_item(int index, int menu_width, int menu_height)
   int x_pos = pos_x;
   int y_pos = pos_y + 24 * index - menu_height / 2 + 12 + effect_offset;
   int shadow_size = (index == active_item) ? 3 : 2;
-  Text* text_font = (index == active_item) ? blue_text : white_text;
+  Text* text_font = (index == active_item) ? blue_text.get() : white_text.get();
 
   int text_width = pitem.text.length() * font_width;
   int input_width = (pitem.input.length() + 1) * font_width;

@@ -43,14 +43,14 @@ struct JoystickKeymap
 extern JoystickKeymap joystick_keymap;
 
 extern SDL_Surface* screen;
-extern Text* black_text;
-extern Text* gold_text;
-extern Text* white_text;
-extern Text* white_small_text;
-extern Text* white_big_text;
-extern Text* blue_text;
+extern std::unique_ptr<Text> black_text;
+extern std::unique_ptr<Text> gold_text;
+extern std::unique_ptr<Text> white_text;
+extern std::unique_ptr<Text> white_small_text;
+extern std::unique_ptr<Text> white_big_text;
+extern std::unique_ptr<Text> blue_text;
 
-extern MouseCursor* mouse_cursor;
+extern std::unique_ptr<MouseCursor> mouse_cursor;
 
 extern bool use_gl;
 extern bool use_joystick;

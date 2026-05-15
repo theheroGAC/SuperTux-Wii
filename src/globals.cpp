@@ -47,14 +47,14 @@ JoystickKeymap joystick_keymap;
 bool is_nunchuk_connected = false;
 
 SDL_Surface* screen;
-Text* black_text;
-Text* gold_text;
-Text* blue_text;
-Text* white_text;
-Text* white_small_text;
-Text* white_big_text;
+std::unique_ptr<Text> black_text;
+std::unique_ptr<Text> gold_text;
+std::unique_ptr<Text> blue_text;
+std::unique_ptr<Text> white_text;
+std::unique_ptr<Text> white_small_text;
+std::unique_ptr<Text> white_big_text;
 
-MouseCursor* mouse_cursor;
+std::unique_ptr<MouseCursor> mouse_cursor;
 
 bool use_gl;
 bool use_joystick;

@@ -19,6 +19,7 @@
 #include "type.hpp"
 #include "level.hpp"
 #include "world.hpp"
+#include <memory>
 
 /* GameLoop modes */
 
@@ -41,7 +42,7 @@ class GameSession
     Timer fps_timer;
     Timer frame_timer;
     Timer endsequence_timer;
-    World* world;
+    std::unique_ptr<World> world;
     int st_gl_mode;
     int levelnb;
     float fps_fps;
@@ -98,7 +99,7 @@ class GameSession
     }
     World* get_world()
     {
-      return world;
+      return world.get();
     }
 
     static GameSession* current()

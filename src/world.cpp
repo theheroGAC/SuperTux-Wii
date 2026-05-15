@@ -55,6 +55,8 @@ namespace {
 
 World* World::current_ = 0;
 
+World::World() = default;
+
 void World::common_setup()
 {
   tux.init();
@@ -65,8 +67,8 @@ void World::common_setup()
   get_level()->load_song();
   apply_bonuses();
   scrolling_timer.init(true);
-  m_renderBatcher = new RenderBatcher();
-  m_spatial_grid = new SpatialGrid(128);
+  m_renderBatcher = std::make_unique<RenderBatcher>();
+  m_spatial_grid = std::make_unique<SpatialGrid>(128);
 }
 
 World::World(std::string_view filename)
@@ -74,7 +76,7 @@ World::World(std::string_view filename)
   // FIXME: Move this to action and draw and everywhere else where the
   // world calls child functions
   current_ = this;
-  level = new Level(filename);
+  level = std::make_unique<Level>(filename);
   common_setup();
 }
 
@@ -83,7 +85,7 @@ World::World(std::string_view subset, int level_nr)
   // FIXME: Move this to action and draw and everywhere else where the
   // world calls child functions
   current_ = this;
-  level = new Level(subset, level_nr);
+  level = std::make_unique<Level>(subset, level_nr);
   common_setup();
 }
 
@@ -111,9 +113,6 @@ void World::apply_bonuses()
 World::~World()
 {
   deactivate_world();
-  delete level;
-  delete m_renderBatcher;
-  delete m_spatial_grid;
 }
 
 void World::activate_world()
@@ -276,7 +275,7 @@ void World::draw()
   }
 
   // Single unified rendering loop - works for both SDL and OpenGL!
-  RenderBatcher* batcher = use_gl ? m_renderBatcher : nullptr;
+  RenderBatcher* batcher = use_gl ? m_renderBatcher.get() : nullptr;
 
   /* Draw background, interactive, and foreground tiles using the helper */
   draw_tile_layer(batcher, level->bg_tiles.data());

@@ -60,7 +60,7 @@ GameSession* GameSession::current_ = nullptr;
  * @param levelnb_ The level number.
  * @param mode The game mode (e.g., demo, play).
  */
-GameSession::GameSession(const std::string& subset_, int levelnb_, int mode): world(nullptr),
+GameSession::GameSession(const std::string& subset_, int levelnb_, int mode):
           st_gl_mode(mode), levelnb(levelnb_), end_sequence(NO_ENDSEQUENCE), subset(subset_)
 {
   current_ = this;
@@ -105,7 +105,7 @@ void GameSession::restart_level()
   {
     // Create a new world based on the mode
     world = (st_gl_mode == ST_GL_LOAD_LEVEL_FILE || st_gl_mode == ST_GL_DEMO_GAME) ?
-             new World(subset): new World(subset, levelnb);
+             std::make_unique<World>(subset) : std::make_unique<World>(subset, levelnb);
   }
 
   // Try to reset to nearest checkpoint if applicable
@@ -155,7 +155,6 @@ void GameSession::restart_level()
  */
 GameSession::~GameSession()
 {
-  delete world;
   lisp_reset_pool(); // Free all memory used by the level data
 }
 

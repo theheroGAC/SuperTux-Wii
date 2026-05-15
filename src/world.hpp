@@ -19,6 +19,7 @@
 #include <string>
 #include <string_view>
 #include <bitset>
+#include <memory>
 #include <SDL2/SDL.h>
 #include "type.hpp"
 #include "scene.hpp"
@@ -41,7 +42,7 @@ class World
 private:
   typedef std::vector<BadGuy*> BadGuys;
   std::vector<BadGuy*> bad_guys_to_add;
-  Level* level;
+  std::unique_ptr<Level> level;
   Player tux;
 
   Timer scrolling_timer;
@@ -51,7 +52,7 @@ private:
   int currentmusic;
 
   static World* current_;
-  RenderBatcher* m_renderBatcher;
+  std::unique_ptr<RenderBatcher> m_renderBatcher;
 
   float m_elapsed_time;
 
@@ -93,7 +94,7 @@ public:
 
 private:
   // Spatial grid is declared last as it's constructed after pools
-  SpatialGrid* m_spatial_grid{nullptr};
+  std::unique_ptr<SpatialGrid> m_spatial_grid;
 
   // Bitset for on-screen bouncy bricks.
   // The draw loop iterates 34 columns (buffer) * SCREEN_HEIGHT_TILES rows.
@@ -108,13 +109,13 @@ public:
   World(std::string_view filename);
   World(std::string_view subset, int level_nr);
 
-  World() {};
+  World();
   ~World();
 
   void activate_world();
   void deactivate_world();
 
-  Level*  get_level() { return level; }
+  Level*  get_level() { return level.get(); }
   Player* get_tux() { return &tux; }
 
   void set_defaults();

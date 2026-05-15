@@ -600,12 +600,12 @@ void st_general_setup(void)
   // mode.
 
   /* Load global images: */
-  black_text = new Text(datadir + "/images/status/letters-black.png", TEXT_TEXT, 16, 18);
-  gold_text = new Text(datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16, 18);
-  blue_text = new Text(datadir + "/images/status/letters-blue.png", TEXT_TEXT, 16, 18);
-  white_text = new Text(datadir + "/images/status/letters-white.png", TEXT_TEXT, 16, 18);
-  white_small_text = new Text(datadir + "/images/status/letters-white-small.png", TEXT_TEXT, 8, 9);
-  white_big_text = new Text(datadir + "/images/status/letters-white-big.png", TEXT_TEXT, 20, 22);
+  black_text      = std::make_unique<Text>(datadir + "/images/status/letters-black.png", TEXT_TEXT, 16, 18);
+  gold_text       = std::make_unique<Text>(datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16, 18);
+  blue_text       = std::make_unique<Text>(datadir + "/images/status/letters-blue.png", TEXT_TEXT, 16, 18);
+  white_text      = std::make_unique<Text>(datadir + "/images/status/letters-white.png", TEXT_TEXT, 16, 18);
+  white_small_text = std::make_unique<Text>(datadir + "/images/status/letters-white-small.png", TEXT_TEXT, 8, 9);
+  white_big_text  = std::make_unique<Text>(datadir + "/images/status/letters-white-big.png", TEXT_TEXT, 20, 22);
 
   /* Load GUI/menu images: */
   checkbox = new Surface(datadir + "/images/status/checkbox.png", true);
@@ -613,8 +613,8 @@ void st_general_setup(void)
   back = new Surface(datadir + "/images/status/back.png", true);
 
   /* Load the mouse-cursor */
-  mouse_cursor = new MouseCursor(datadir + "/images/status/mousecursor.png", 1);
-  MouseCursor::set_current(mouse_cursor);
+  mouse_cursor = std::make_unique<MouseCursor>(datadir + "/images/status/mousecursor.png", 1);
+  MouseCursor::set_current(mouse_cursor.get());
 }
 
 /**
@@ -625,21 +625,10 @@ void st_general_setup(void)
  */
 void st_general_free(void)
 {
-  /* Free global images: */
-  delete black_text;
-  delete gold_text;
-  delete white_text;
-  delete blue_text;
-  delete white_small_text;
-  delete white_big_text;
-
   /* Free GUI/menu images: */
   delete checkbox;
   delete checkbox_checked;
   delete back;
-
-  /* Free mouse-cursor */
-  delete mouse_cursor;
 
   /* Free menus */
   delete worldmap_menu;
