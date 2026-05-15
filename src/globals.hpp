@@ -22,7 +22,7 @@
 #include "mousecursor.hpp"
 
 // Loading Screen as Supertux takes a long, long time to load on Wii
-extern Surface* loading_surf;
+extern std::unique_ptr<Surface> loading_surf;
 
 extern std::string datadir;
 

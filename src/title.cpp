@@ -516,7 +516,7 @@ void title(void)
   createDemo();
 
   // Draw loading screen as a placeholder while loading resources
-  if(loading_surf)
+  if (loading_surf)
   {
     loading_surf->draw(160, 30);
   }
@@ -525,12 +525,8 @@ void title(void)
   bkg_title = new Surface(datadir + "/images/title/background.jpg", false);
   logo = new Surface(datadir + "/images/title/logo.png", true);
 
-  // After title screen elements are loaded, delete the loading surface
-  if(loading_surf)
-  {
-    delete loading_surf;
-    loading_surf = nullptr; // Set to NULL to avoid accidental use
-  }
+  // Release the loading surface now that title assets are ready.
+  loading_surf.reset();
 
   // Scan and cache all bonus content ONCE at startup
   // Initialize the worldmap list.

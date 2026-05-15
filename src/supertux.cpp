@@ -31,8 +31,8 @@
   #include <fat.h>
 #endif
 
-// Loading Screen as SuperTux on Wii takes a long, long time to load
-Surface* loading_surf = NULL;
+// Loading screen surface (shown while heavy resources load on startup)
+std::unique_ptr<Surface> loading_surf;
 
 
 /**
@@ -77,7 +77,7 @@ int main(int argc, char ** argv)
 
   // Initialize and show the loading screen
   clearscreen(0, 0, 0);
-  loading_surf = new Surface(datadir + "/images/title/loading.png", true);
+  loading_surf = std::make_unique<Surface>(datadir + "/images/title/loading.png", true);
   loading_surf->draw(160, 30);
   updatescreen();  // Refresh screen to show the loading screen
 
@@ -91,11 +91,11 @@ int main(int argc, char ** argv)
   if (!level_startup_file.empty())
   {
     GameSession session(level_startup_file, 1, ST_GL_LOAD_LEVEL_FILE);
-    session.run();  // Run the specified game session
+    session.run();
   }
   else
   {
-    title();  // Start the title screen, loading_surf is deleted inside the title() function
+    title();
   }
 
   // Clear the screen (but don't flip the buffer at shutdown)
