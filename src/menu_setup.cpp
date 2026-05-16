@@ -147,7 +147,7 @@ void update_load_save_game_menu(Menu* pmenu)
     // FIXME: Insert a real savegame struct/class here instead of doing string vodoo
     std::string tmp = slotinfo(i - 1);
     pmenu->item[i].kind = MN_ACTION;
-    pmenu->item[i].change_text(tmp.c_str());
+    pmenu->item[i].change_text(tmp);
   }
 }
 
@@ -180,7 +180,7 @@ bool process_load_game_menu()
     WorldMapNS::WorldMap worldmap;
     worldmap.set_map_file("world1.stwm");
     worldmap.load_map();
-    worldmap.loadgame(slotfile.c_str());
+    worldmap.loadgame(slotfile);
     worldmap.display();
 
     Menu::set_current(main_menu);

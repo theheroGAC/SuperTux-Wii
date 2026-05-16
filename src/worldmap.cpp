@@ -1437,20 +1437,20 @@ void WorldMap::draw_status()
       {
         if (!i->name.empty())
         {
-          white_text->draw_align(i->title.c_str(), screen->w / 2, screen->h - offset_y, A_HMIDDLE, A_BOTTOM);
+          white_text->draw_align(i->title, screen->w / 2, screen->h - offset_y, A_HMIDDLE, A_BOTTOM);
         }
         else if (i->teleport_dest_x != -1)
         {
           if (!i->teleport_message.empty())
           {
-            gold_text->draw_align(i->teleport_message.c_str(), screen->w / 2, screen->h - offset_y, A_HMIDDLE, A_BOTTOM);
+            gold_text->draw_align(i->teleport_message, screen->w / 2, screen->h - offset_y, A_HMIDDLE, A_BOTTOM);
           }
         }
 
         /* Display a message in the map, if any as been selected */
         if (!i->display_map_message.empty() && !i->passive_message)
         {
-          gold_text->draw_align(i->display_map_message.c_str(), screen->w / 2, screen->h - 30, A_HMIDDLE, A_BOTTOM);
+          gold_text->draw_align(i->display_map_message, screen->w / 2, screen->h - 30, A_HMIDDLE, A_BOTTOM);
         }
 
         break;
@@ -1461,7 +1461,7 @@ void WorldMap::draw_status()
   /* Display a passive message in the map, if needed */
   if (passive_message_timer.check())
   {
-    gold_text->draw_align(passive_message.c_str(), screen->w / 2, screen->h - 30, A_HMIDDLE, A_BOTTOM);
+    gold_text->draw_align(passive_message, screen->w / 2, screen->h - 30, A_HMIDDLE, A_BOTTOM);
   }
 }
 

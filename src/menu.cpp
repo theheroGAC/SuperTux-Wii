@@ -552,7 +552,7 @@ void Menu::draw_item(int index, int menu_width, int menu_height)
   switch (pitem.kind)
   {
     case MN_DEACTIVE:
-      black_text->draw_align(pitem.text.c_str(), x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
+      black_text->draw_align(pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
       break;
     case MN_HL:
     {
@@ -564,7 +564,7 @@ void Menu::draw_item(int index, int menu_width, int menu_height)
     }
     case MN_LABEL:
     {
-      white_big_text->draw_align(pitem.text.c_str(), x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
+      white_big_text->draw_align(pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
       break;
     }
     case MN_CONTROLFIELD:
@@ -578,8 +578,8 @@ void Menu::draw_item(int index, int menu_width, int menu_height)
       get_controlfield_key_into_input(&pitem);
 
       // Draw the label text and the key name text.
-      gold_text->draw_align(pitem.input.c_str(), x_pos + text_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
-      text_font->draw_align(pitem.text.c_str(), x_pos - (input_width + font_width) / 2, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+      gold_text->draw_align(pitem.input, x_pos + text_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
+      text_font->draw_align(pitem.text, x_pos - (input_width + font_width) / 2, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
       break;
     }
     case MN_STRINGSELECT:
@@ -588,27 +588,27 @@ void Menu::draw_item(int index, int menu_width, int menu_height)
       int text_pos = (text_width + font_width) / 2;
       fillrect(x_pos - list_width / 2 + text_pos - 1, y_pos - 10, list_pos_2 + 2, 20, 255, 255, 255, 255);
       fillrect(x_pos - list_width / 2 + text_pos, y_pos - 9, list_pos_2, 18, 0, 0, 0, 128);
-      gold_text->draw_align(active_list_item.c_str(), x_pos + text_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
-      text_font->draw_align(pitem.text.c_str(), x_pos - list_pos_2 / 2, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+      gold_text->draw_align(active_list_item, x_pos + text_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
+      text_font->draw_align(pitem.text, x_pos - list_pos_2 / 2, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
       break;
     }
     case MN_BACKSAVE:
     case MN_BACK:
     {
-      text_font->draw_align(pitem.text.c_str(), x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+      text_font->draw_align(pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
       back->draw(x_pos + text_width / 2 + font_width, y_pos - 8);
       break;
     }
     case MN_TOGGLE:
     {
-      text_font->draw_align(pitem.text.c_str(), x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+      text_font->draw_align(pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
       (pitem.toggled ? checkbox_checked : checkbox)->draw(x_pos + (text_width + font_width) / 2, y_pos - 8);
       break;
     }
     case MN_ACTION:
     case MN_GOTO:
     {
-      text_font->draw_align(pitem.text.c_str(), x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+      text_font->draw_align(pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
       break;
     }
   }

@@ -36,7 +36,7 @@ Sprite::Sprite(lisp_object_t* cur)
 
   std::vector<std::string> images;
   if (!reader.read_string_vector("images", &images))
-    st_abort("Sprite contains no images: ", name.c_str());
+    st_abort("Sprite contains no images: ", name);
 
   for (const auto& image : images)
   {
