@@ -98,6 +98,24 @@ void st_general_setup(void)
  */
 void st_general_free(void)
 {
+  /* Reset unique_ptr globals explicitly.
+   *
+   * These own objects whose destructors call Surface::~Surface, which removes
+   * entries from the static Surface::surfaces list (texture.cpp).  If we
+   * leave them to the C++ runtime's atexit chain, the destruction order
+   * between translation units is unspecified — Surface::surfaces may already
+   * be gone when the unique_ptr destructors fire, corrupting the list walk
+   * and causing a SIGSEGV.  Resetting here runs those destructors
+   * deterministically, while the full program state is still valid.
+   */
+  mouse_cursor.reset();
+  black_text.reset();
+  gold_text.reset();
+  blue_text.reset();
+  white_text.reset();
+  white_small_text.reset();
+  white_big_text.reset();
+
   /* Free GUI/menu images: */
   delete checkbox;
   delete checkbox_checked;
