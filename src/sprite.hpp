@@ -36,7 +36,7 @@ class Sprite
   void init_defaults();           // Initialize default values for the sprite
 
  public:
-  Sprite(lisp_object_t* cur);     // Constructs a Sprite from Lisp data
+  explicit Sprite(lisp_object_t* cur);     // Constructs a Sprite from Lisp data
   ~Sprite();                      // Destructor
 
   // Forbid copying to prevent double-free errors

@@ -106,7 +106,7 @@ public:
   static World* current() { return current_; }
   static void set_current(World* w) { current_ = w; }
 
-  World(std::string_view filename);
+  explicit World(std::string_view filename);
   World(std::string_view subset, int level_nr);
 
   World();

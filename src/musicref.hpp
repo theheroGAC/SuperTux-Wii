@@ -27,7 +27,7 @@ public:
 
 private:
   friend class MusicManager;
-  MusicRef(MusicManager::MusicResource* music);  // Private constructor used by MusicManager
+  explicit MusicRef(MusicManager::MusicResource* music);  // Private constructor used by MusicManager
 
   MusicManager::MusicResource* music;  // Pointer to the actual music resource
 };

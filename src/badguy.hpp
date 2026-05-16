@@ -182,7 +182,7 @@ struct BadGuyData
   int y;
   bool stay_on_platform;
 
-  BadGuyData(BadGuy* pbadguy) : kind(pbadguy->kind), x((int)pbadguy->base.x), y((int)pbadguy->base.y), stay_on_platform(pbadguy->stay_on_platform)  {};
+  explicit BadGuyData(BadGuy* pbadguy) : kind(pbadguy->kind), x((int)pbadguy->base.x), y((int)pbadguy->base.y), stay_on_platform(pbadguy->stay_on_platform)  {};
   BadGuyData(BadGuyKind kind_, int x_, int y_, bool stay_on_platform_)
     : kind(kind_), x(x_), y(y_), stay_on_platform(stay_on_platform_) {}
 

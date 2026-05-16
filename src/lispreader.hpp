@@ -175,7 +175,7 @@ private:
   template <typename T, typename Predicate, typename Getter>
   bool read_vector_impl(const char* name, std::vector<T>* vec, Predicate pred, Getter get);
 public:
-  LispReader(lisp_object_t* l);
+  explicit LispReader(lisp_object_t* l);
 
   bool read_int_vector(const char* name, std::vector<int>* vec);
   bool read_char_vector(const char* name, std::vector<char>* vec);
@@ -197,7 +197,7 @@ private:
   lisp_object_t* make_list3(lisp_object_t*, lisp_object_t*, lisp_object_t*);
   lisp_object_t* make_list2(lisp_object_t*, lisp_object_t*);
 public:
-  LispWriter(const char* name);
+  explicit LispWriter(const char* name);
 
   void write_float(const char* name, float f);
   void write_int(const char* name, int i);

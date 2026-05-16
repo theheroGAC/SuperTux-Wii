@@ -27,7 +27,7 @@ class SpriteManager
   Sprites sprites;                                // Collection of sprites
 
  public:
-  SpriteManager(std::string_view filename); // Loads sprites from a resource file
+  explicit SpriteManager(std::string_view filename); // Loads sprites from a resource file
   ~SpriteManager(); // Destructor, frees allocated sprites
 
   void load_resfile(std::string_view filename); // Loads sprite definitions from a resource file

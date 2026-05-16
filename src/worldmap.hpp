@@ -126,7 +126,7 @@ private:
 
   void stop();
 public:
-  Tux(WorldMap* worldmap_);
+  explicit Tux(WorldMap* worldmap_);
   ~Tux();
 
   void loadSprites();

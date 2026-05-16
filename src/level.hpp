@@ -89,7 +89,7 @@ public:
 
   Level();
   Level(std::string_view subset, int level);
-  Level(std::string_view filename);
+  explicit Level(std::string_view filename);
   ~Level();
 
   void init_defaults();
