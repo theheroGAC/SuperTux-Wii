@@ -23,7 +23,7 @@
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
 #elif defined(__FreeBSD__)
-#include <sys/types.hh>
+#include <sys/types.h>
 #include <sys/sysctl.h>
 #endif
 
