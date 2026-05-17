@@ -508,7 +508,9 @@ void Tux::update(float delta)
  * Tile constructor, initializes an empty Tile object.
  */
 Tile::Tile()
-  : sprite(nullptr)
+  : sprite(nullptr),
+    north(false), east(false), south(false), west(false),
+    one_way(0), stop(false), auto_walk(false)
 {
 }
 
@@ -528,6 +530,7 @@ WorldMap::WorldMap()
 {
   current_ = this;
   tux = nullptr;
+  quit = false;
   tile_manager = new TileManager();
   m_renderBatcher = new RenderBatcher();
 

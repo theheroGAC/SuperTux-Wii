@@ -59,7 +59,8 @@ struct OriginalTileInfo
 
 struct ResetPoint
 {
-  int x, y;
+  int x;
+  int y;
 };
 
 class Level

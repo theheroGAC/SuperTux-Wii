@@ -444,7 +444,7 @@ void Text::draw_chars(Surface* pchars, std::string_view text, int x, int y, int 
     else if (text[i] >= '0' && text[i] <= '?')  // ASCII range for numbers (0-9) and symbols
     {
       offset_x = (text[i] - '0') * w;
-      offset_y = h * 1;
+      offset_y = h;
     }
     else if (text[i] >= '@' && text[i] <= 'O')  // ASCII range for uppercase letters A-O
     {

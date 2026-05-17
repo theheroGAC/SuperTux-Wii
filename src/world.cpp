@@ -72,22 +72,18 @@ void World::common_setup()
 }
 
 World::World(std::string_view filename)
-  : m_elapsed_time(0.0f)
+  : level(std::make_unique<Level>(filename)),
+    m_elapsed_time(0.0f)
 {
-  // FIXME: Move this to action and draw and everywhere else where the
-  // world calls child functions
   current_ = this;
-  level = std::make_unique<Level>(filename);
   common_setup();
 }
 
 World::World(std::string_view subset, int level_nr)
-  : m_elapsed_time(0.0f)
+  : level(std::make_unique<Level>(subset, level_nr)),
+    m_elapsed_time(0.0f)
 {
-  // FIXME: Move this to action and draw and everywhere else where the
-  // world calls child functions
   current_ = this;
-  level = std::make_unique<Level>(subset, level_nr);
   common_setup();
 }
 
