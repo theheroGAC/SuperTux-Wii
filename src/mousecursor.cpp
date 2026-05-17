@@ -22,8 +22,8 @@ MouseCursor* MouseCursor::current_ = nullptr;  // Initialize static member to nu
  * Loads the cursor image and initializes its state and position.
  */
 MouseCursor::MouseCursor(std::string cursor_file, int frames)
-  : mid_x(0), mid_y(0), cur_state(MC_NORMAL), cur_frame(0), tot_frames(frames),
-    frame_w(0), frame_h(0)  // Initialize cached dimensions
+  : mid_x(0), mid_y(0), state_before_click(MC_NORMAL), cur_state(MC_NORMAL),
+    cur_frame(0), tot_frames(frames), frame_w(0), frame_h(0)
 {
   cursor = new Surface(cursor_file, true);
   if (!cursor)

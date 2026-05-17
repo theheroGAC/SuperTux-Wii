@@ -34,7 +34,7 @@ struct base_type
 class GameObject
 {
 public:
-  GameObject() {};
+  GameObject() : base{}, old_base{} {};
   virtual ~GameObject() {};
   virtual void action(float frame_ratio) = 0;
   virtual void draw() = 0;

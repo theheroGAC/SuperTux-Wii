@@ -72,6 +72,7 @@ void World::common_setup()
 }
 
 World::World(std::string_view filename)
+  : m_elapsed_time(0.0f)
 {
   // FIXME: Move this to action and draw and everywhere else where the
   // world calls child functions
@@ -81,6 +82,7 @@ World::World(std::string_view filename)
 }
 
 World::World(std::string_view subset, int level_nr)
+  : m_elapsed_time(0.0f)
 {
   // FIXME: Move this to action and draw and everywhere else where the
   // world calls child functions

@@ -61,7 +61,8 @@ GameSession* GameSession::current_ = nullptr;
  * @param mode The game mode (e.g., demo, play).
  */
 GameSession::GameSession(const std::string& subset_, int levelnb_, int mode):
-          st_gl_mode(mode), levelnb(levelnb_), end_sequence(NO_ENDSEQUENCE), subset(subset_)
+          st_gl_mode(mode), levelnb(levelnb_), fps_fps(0.0f),
+          end_sequence(NO_ENDSEQUENCE), subset(subset_)
 {
   current_ = this;
   global_frame_counter = 0;

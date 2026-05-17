@@ -27,7 +27,7 @@ namespace fs = std::filesystem;  // Alias for ease of use
  * Constructor for Tile.
  * Initializes a Tile object.
  */
-Tile::Tile() : current_frame_index(0)
+Tile::Tile() : id(0), current_frame_index(0)
 {
   // Constructor: Initializes a Tile object
 }

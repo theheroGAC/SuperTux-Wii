@@ -248,7 +248,7 @@ Tile* TileManager::get(int i)
  * Constructor for Tux, initializes Tux with world map and sprites.
  * @param worldmap_ The WorldMap to associate with Tux.
  */
-Tux::Tux(WorldMap* worldmap_) : worldmap(worldmap_)
+Tux::Tux(WorldMap* worldmap_) : back_direction(D_NONE), worldmap(worldmap_)
 {
   largetux_sprite = new Surface(datadir + "/images/worldmap/tux.png", true);
   firetux_sprite = new Surface(datadir + "/images/worldmap/firetux.png", true);
@@ -508,6 +508,7 @@ void Tux::update(float delta)
  * Tile constructor, initializes an empty Tile object.
  */
 Tile::Tile()
+  : sprite(nullptr)
 {
 }
 
@@ -526,6 +527,7 @@ Tile::~Tile()
 WorldMap::WorldMap()
 {
   current_ = this;
+  tux = nullptr;
   tile_manager = new TileManager();
   m_renderBatcher = new RenderBatcher();
 

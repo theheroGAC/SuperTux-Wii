@@ -86,7 +86,7 @@ static SDL_Surface* finalize_surface(SDL_Surface* temp, bool use_alpha, const st
  * @param use_alpha Whether to use alpha transparency.
  */
 SurfaceData::SurfaceData(SDL_Surface* temp, bool use_alpha_)
-  : type(SURFACE), surface(nullptr), use_alpha(use_alpha_)
+  : type(SURFACE), surface(nullptr), use_alpha(use_alpha_), x(0), y(0), w(0), h(0)
 {
   // Copy the given surface and make sure that it's not stored in video memory
   surface = SDL_CreateRGBSurface(0, temp->w, temp->h,
@@ -109,7 +109,7 @@ SurfaceData::SurfaceData(SDL_Surface* temp, bool use_alpha_)
  * @param use_alpha Whether to use alpha transparency.
  */
 SurfaceData::SurfaceData(std::string_view file_, bool use_alpha_)
-  : type(LOAD), surface(nullptr), file(file_), use_alpha(use_alpha_)
+  : type(LOAD), surface(nullptr), file(file_), use_alpha(use_alpha_), x(0), y(0), w(0), h(0)
 {
 }
 
@@ -520,7 +520,7 @@ SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha)
 /**
  * Constructor for SurfaceImpl.
  */
-SurfaceImpl::SurfaceImpl() : sdl_surface(nullptr)
+SurfaceImpl::SurfaceImpl() : sdl_surface(nullptr), w(0), h(0)
 {
 }
 
@@ -567,6 +567,7 @@ int SurfaceImpl::resize(int w_, int h_)
  * @param use_alpha Whether to use alpha transparency.
  */
 SurfaceOpenGL::SurfaceOpenGL(SDL_Surface* surf, bool use_alpha)
+  : tex_w_allocated(0.0f), tex_h_allocated(0.0f)
 {
   sdl_surface = sdl_surface_from_sdl_surface(surf, use_alpha);
   create_gl(sdl_surface, &gl_texture);
@@ -581,6 +582,7 @@ SurfaceOpenGL::SurfaceOpenGL(SDL_Surface* surf, bool use_alpha)
  * @param use_alpha Whether to use alpha transparency.
  */
 SurfaceOpenGL::SurfaceOpenGL(std::string_view file, bool use_alpha)
+  : tex_w_allocated(0.0f), tex_h_allocated(0.0f)
 {
   sdl_surface = sdl_surface_from_file(file, use_alpha);
   create_gl(sdl_surface, &gl_texture);
@@ -599,6 +601,7 @@ SurfaceOpenGL::SurfaceOpenGL(std::string_view file, bool use_alpha)
  * @param use_alpha Whether to use alpha transparency.
  */
 SurfaceOpenGL::SurfaceOpenGL(std::string_view file, int x, int y, int w, int h, bool use_alpha)
+  : tex_w_allocated(0.0f), tex_h_allocated(0.0f)
 {
   sdl_surface = sdl_surface_part_from_file(file, x, y, w, h, use_alpha);
   create_gl(sdl_surface, &gl_texture);
