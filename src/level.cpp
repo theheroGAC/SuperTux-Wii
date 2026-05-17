@@ -743,7 +743,7 @@ void Level::load_gfx()
  * @param file The filename of the image to load.
  * @param use_alpha Whether to use alpha channel for the image.
  */
-void Level::load_image(Surface** ptexture, string theme, const char* file, bool use_alpha)
+void Level::load_image(Surface** ptexture, const string& theme, const char* file, bool use_alpha)
 {
   fs::path fname = fs::path(st_dir) / "themes" / theme / file;
   if (!faccessible(fname.string().c_str()))

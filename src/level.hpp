@@ -99,7 +99,7 @@ public:
   void save(const std::string& subset, int level);
   void cleanup();
   void load_gfx();
-  void load_image(Surface** ptexture, std::string theme, const char* file, bool use_alpha);
+  void load_image(Surface** ptexture, const std::string& theme, const char* file, bool use_alpha);
   void change_size(int new_width);
   void change(float x, float y, int tm, unsigned int c);
   void load_song();

@@ -75,7 +75,7 @@ TileManager::~TileManager()
  * @param filename The path to the tileset file.
  * If the filename matches the currently loaded tileset, it does nothing.
  */
-void TileManager::load_tileset(std::string filename)
+void TileManager::load_tileset(const std::string& filename)
 {
   if (filename == current_tileset)
   {
