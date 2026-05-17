@@ -96,7 +96,8 @@ void MouseCursor::set_mid(int x, int y)
  */
 void MouseCursor::draw()
 {
-  int x, y;
+  int x;
+  int y;
   Uint8 ispressed = SDL_GetMouseState(&x, &y);  // Get the mouse position and button state
 
   // Note: The width and height of the cursor frame ('frame_w', 'frame_h') are now

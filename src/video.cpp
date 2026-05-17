@@ -124,7 +124,10 @@ void st_video_setup(void)
   // that checks screen->w and screen->h.
   // In SDL2, we don't draw directly to this surface for the screen,
   // but we need it to exist and have the correct dimensions.
-  Uint32 rmask, gmask, bmask, amask;
+  Uint32 rmask;
+  Uint32 gmask;
+  Uint32 bmask;
+  Uint32 amask;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
   rmask = 0xff000000; gmask = 0x00ff0000; bmask = 0x0000ff00; amask = 0x000000ff;
 #else
@@ -202,7 +205,8 @@ void st_toggle_fullscreen(void)
   // mode)
   if (renderer)
   {
-    int w, h;
+    int w;
+    int h;
     SDL_GetWindowSize(window, &w, &h);
 
     // Reset renderer state completely
@@ -233,7 +237,8 @@ void st_toggle_fullscreen(void)
   // Update OpenGL viewport and projection for the new window size (OpenGL mode)
   if (use_gl)
   {
-    int w, h;
+    int w;
+    int h;
     SDL_GetWindowSize(window, &w, &h);
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
@@ -315,7 +320,8 @@ void st_video_setup_gl(void)
   // this state might persist (especially on Wii), causing drawing to be clipped.
   glDisable(GL_SCISSOR_TEST);
 
-  int w, h;
+  int w;
+  int h;
   SDL_GetWindowSize(window, &w, &h);
 
   glViewport(0, 0, w, h);

@@ -158,7 +158,8 @@ void collision_swept_object_map(base_type* old, base_type* current)
 
   // --- Determine dominant axis and step increments ---
   float longest_path;
-  float x_step, y_step;
+  float x_step;
+  float y_step;
   enum AxisCase { VERTICAL = 1, HORIZONTAL = 2, DIAGONAL = 3 } axis_case;
 
   if (old->x == current->x)

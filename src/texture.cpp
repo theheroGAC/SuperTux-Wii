@@ -673,7 +673,8 @@ void SurfaceOpenGL::enable_vertex_arrays()
 void SurfaceOpenGL::create_gl(SDL_Surface* surf, GLuint* tex)
 {
   Uint8 saved_alpha;
-  int w, h;
+  int w;
+  int h;
   SDL_Surface* conv;
 
 #ifdef __WII__
@@ -695,8 +696,12 @@ void SurfaceOpenGL::create_gl(SDL_Surface* surf, GLuint* tex)
   // This saves RAM for backgrounds and opaque tiles.
   bool has_alpha = (surf->format->Amask != 0);
   int bpp;
-  Uint32 rmask, gmask, bmask, amask;
-  GLenum gl_format, gl_type;
+  Uint32 rmask;
+  Uint32 gmask;
+  Uint32 bmask;
+  Uint32 amask;
+  GLenum gl_format;
+  GLenum gl_type;
 
   if (has_alpha)
   {
@@ -1136,7 +1141,8 @@ int SurfaceSDL::draw_bg(Uint8 alpha, bool update)
  */
 int SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
 {
-  SDL_Rect src, dst;
+  SDL_Rect src;
+  SDL_Rect dst;
   src.x = (int)sx;
   src.y = (int)sy;
   src.w = (int)w;

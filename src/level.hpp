@@ -52,7 +52,8 @@ public:
 
 struct OriginalTileInfo
 {
-  int x, y;
+  int x;
+  int y;
   unsigned int tile;
 };
 
@@ -70,7 +71,8 @@ public:
   std::string bkgd_image;
   std::string particle_system;
   int width;
-  int start_pos_x, start_pos_y;
+  int start_pos_x;
+  int start_pos_y;
   int time_left;
   float gravity;
   bool back_scrolling;

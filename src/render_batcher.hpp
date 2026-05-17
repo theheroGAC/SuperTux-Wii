@@ -20,8 +20,10 @@
 // A simple struct to hold vertex data for one corner of a quad
 struct alignas(16) VertexData
 {
-  float x, y; // Position
-  float u, v; // Texture Coordinates
+  float x; // Position X
+  float y; // Position Y
+  float u; // Texture Coordinate U
+  float v; // Texture Coordinate V
 };
 
 static_assert(sizeof(VertexData) == 16, "VertexData must be 16 bytes");

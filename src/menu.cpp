@@ -725,7 +725,8 @@ bool Menu::isToggled(int id) const
 void Menu::event(SDL_Event& event)
 {
   SDL_Keycode key;
-  int x, y;
+  int x;
+  int y;
 
   switch (event.type)
   {

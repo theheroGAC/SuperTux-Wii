@@ -41,11 +41,13 @@ public:
   static void set_current(MouseCursor* pcursor) { current_ = pcursor; };
 
 private:
-  int mid_x, mid_y;
+  int mid_x;
+  int mid_y;
   static MouseCursor* current_;
   int state_before_click;
   int cur_state;
-  int cur_frame, tot_frames;
+  int cur_frame;
+  int tot_frames;
   Surface* cursor;
   Timer timer;
 

@@ -50,7 +50,8 @@ public:
 
 private:
   struct CellKey {
-    int x, y;
+    int x;
+    int y;
 
     bool operator==(const CellKey& other) const {
       return x == other.x && y == other.y;

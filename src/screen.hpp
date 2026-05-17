@@ -40,7 +40,9 @@ struct Color
     return red == other.red && green == other.green && blue == other.blue;
   }
 
-  int red, green, blue;
+  int red;
+  int green;
+  int blue;
 };
 
 void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a); // Draws a line on the screen

@@ -429,7 +429,8 @@ void Text::draw_chars(Surface* pchars, std::string_view text, int x, int y, int 
   }
 
   // Loop through each character in the string
-  for (size_t i = 0, j = 0; i < len; ++i, ++j)
+  size_t j = 0;
+  for (size_t i = 0; i < len; ++i, ++j)
   {
     int offset_x = 0;  // Horizontal offset on the source surface (spritesheet)
     int offset_y = 0;  // Vertical offset on the source surface (spritesheet)

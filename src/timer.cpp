@@ -15,7 +15,8 @@
 #include "timer.hpp"
 
 // Static member definitions for the Ticks class.
-Uint32 Ticks::pause_ticks = 0, Ticks::pause_count = 0;
+Uint32 Ticks::pause_ticks = 0;
+Uint32 Ticks::pause_count = 0;
 
 /**
  * Get the current game time in ticks, accounting for any time the game has been paused.

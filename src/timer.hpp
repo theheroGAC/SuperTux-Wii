@@ -24,7 +24,8 @@ public:
   static void pause_stop(void);
   static bool pause_started(void);
 private:
-  static Uint32 pause_ticks, pause_count;
+  static Uint32 pause_ticks;
+  static Uint32 pause_count;
 };
 
 // A general-purpose timer for managing time-based events.

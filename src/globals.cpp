@@ -70,7 +70,8 @@ int joystick_num = 0;
 std::string level_startup_file;
 
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
-std::string st_dir, st_save_dir;
+std::string st_dir;
+std::string st_save_dir;
 
 SDL_Joystick* js;
 

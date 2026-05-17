@@ -46,8 +46,10 @@ enum TextVAlign
 
 #ifndef NOOPENGL
 struct alignas(16) CharVertex {
-  float x, y;
-  float tx, ty;
+  float x;
+  float y;
+  float tx;
+  float ty;
 };
 
 static_assert(sizeof(CharVertex) == 16, "CharVertex must be 16 bytes");
@@ -74,7 +76,8 @@ class Text
     struct CachedTextRun
     {
       std::string text;                    // The text string (owns data)
-      int x, y;                             // Position
+      int x;                               // Position
+      int y;                               // Position
       std::vector<CharVertex> vertices;     // Pre-built vertices
       bool dirty = true;                    // Needs rebuilding?
     };

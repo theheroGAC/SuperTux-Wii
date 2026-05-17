@@ -416,7 +416,9 @@ void Level::parseProperties(LispReader& reader)
  */
 void Level::parseTilemaps(LispReader& reader, int version)
 {
-  vector<int> ia_tm, bg_tm, fg_tm;
+  vector<int> ia_tm;
+  vector<int> bg_tm;
+  vector<int> fg_tm;
   const int total_tiles = width * SCREEN_HEIGHT_TILES;
 
   // Reserve memory to prevent reallocations
@@ -448,7 +450,8 @@ void Level::parseTilemaps(LispReader& reader, int version)
     transtable['^'] = 76; transtable['*'] = 80; transtable['|'] = 79;
     transtable['\\'] = 81; transtable['&'] = 75;
 
-    int x = 0, y = 0;
+    int x = 0;
+    int y = 0;
     for (auto& tile : ia_tm)
     {
       if (tile >= '0' && tile <= '2')
