@@ -43,7 +43,7 @@ void st_audio_setup(void); // Sets up the audio system
 void st_joystick_setup(void); // Sets up the joystick system
 void st_shutdown(void); // Shuts down the game and frees resources
 void st_menu(void); // Displays the main menu
-void st_abort(const std::string& reason, const std::string& details); // Aborts the game with a reason and details
+[[noreturn]] void st_abort(const std::string& reason, const std::string& details); // Aborts the game with a reason and details
 
 bool process_load_game_menu(); // Returns true if the game loop was entered
 void update_load_save_game_menu(Menu* pmenu); // Updates the load/save game menu

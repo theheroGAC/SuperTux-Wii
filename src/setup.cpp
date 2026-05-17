@@ -317,7 +317,7 @@ void st_shutdown(void)
  * @param reason A brief description of why the program is aborting.
  * @param details Additional details about the error.
  */
-void st_abort(const std::string& reason, const std::string& details)
+[[noreturn]] void st_abort(const std::string& reason, const std::string& details)
 {
   // Construct the error message
   std::string errmsg = "\nError: " + reason + "\n" + details + "\n";
