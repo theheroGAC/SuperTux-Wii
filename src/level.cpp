@@ -648,7 +648,7 @@ void Level::save(const std::string& subset, int level)
   {
     for (int x = 0; x < width; ++x)
     {
-      fprintf(fi, " %d ", bg_tiles[y * width + x]);
+      fprintf(fi, " %u ", bg_tiles[y * width + x]);
     }
   }
   fprintf(fi, ")\n");
@@ -658,7 +658,7 @@ void Level::save(const std::string& subset, int level)
   {
     for (int x = 0; x < width; ++x)
     {
-      fprintf(fi, " %d ", ia_tiles[y * width + x]);
+      fprintf(fi, " %u ", ia_tiles[y * width + x]);
     }
   }
   fprintf(fi, ")\n");
@@ -668,7 +668,7 @@ void Level::save(const std::string& subset, int level)
   {
     for (int x = 0; x < width; ++x)
     {
-      fprintf(fi, " %d ", fg_tiles[y * width + x]);
+      fprintf(fi, " %u ", fg_tiles[y * width + x]);
     }
   }
   fprintf(fi, ")\n");
