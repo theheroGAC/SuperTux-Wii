@@ -12,7 +12,8 @@
 
 #include "tile.hpp"
 #include "scene.hpp"
-#include <assert.h>
+#include <cassert>
+#include <iostream>
 #include <cstring>
 #include <filesystem>
 #include "render_batcher.hpp"
@@ -130,11 +131,12 @@ void TileManager::load_tileset(const std::string& filename)
 
         // Parse the tile properties from the file
         LispReader reader(lisp_cdr(element));
-#ifndef DDEBUG
-        void(reader.read_int("id", &tile->id));
-#else
-        assert(reader.read_int("id", &tile->id));
-#endif
+        if (!reader.read_int("id", &tile->id))
+        {
+          std::cerr << "Warning: Tile missing required 'id' property, skipping.\n";
+          delete tile;
+          continue;
+        }
 
         reader.read_bool("solid", &tile->solid);
         reader.read_bool("brick", &tile->brick);
