@@ -254,7 +254,7 @@ void BadGuy::action_mriceblock(float frame_ratio)
     // Apply physics to move the block based on its current velocity.
     updatePhysics(frame_ratio, dying != DYING_FALLING);
   }
-  else if (mode == HELD)
+  else // mode == HELD
   {
     // When held, the block's position is locked relative to Tux.
     dir = tux.dir;
@@ -1330,24 +1330,22 @@ void BadGuy::handleCollisionWithBadGuy(BadGuy* other)
       return;
     }
 
-    if (other->kind != BAD_FLAME)
+    // BAD_FLAME is already filtered by the early return above.
+    if (dir == LEFT)
     {
-      if (dir == LEFT)
-      {
-        dir = RIGHT;
-        physic.set_velocity_x(std::fabs(physic.get_velocity_x()));
+      dir = RIGHT;
+      physic.set_velocity_x(std::fabs(physic.get_velocity_x()));
 
-        // in case badguys get "jammed"
-        if (physic.get_velocity_x() != 0)
-        {
-          base.x = other->base.x + other->base.width;
-        }
-      }
-      else if (dir == RIGHT)
+      // in case badguys get "jammed"
+      if (physic.get_velocity_x() != 0)
       {
-        dir = LEFT;
-        physic.set_velocity_x(-std::fabs(physic.get_velocity_x()));
+        base.x = other->base.x + other->base.width;
       }
+    }
+    else if (dir == RIGHT)
+    {
+      dir = LEFT;
+      physic.set_velocity_x(-std::fabs(physic.get_velocity_x()));
     }
   }
 }

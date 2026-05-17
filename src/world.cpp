@@ -490,7 +490,7 @@ void World::resolvePlayerPhysics(Player* player)
       {
         trygrabdistro(player->base.x + (TILE_SIZE - 1), player->base.y - TILE_SIZE, BOUNCE);
         trybumpbadguy(player->base.x + (TILE_SIZE - 1), player->base.y - (TILE_SIZE * 2));
-        if (player->size == BIG) { trybreakbrick(player->base.x + (TILE_SIZE - 1), player->base.y, player->size == SMALL, LEFT); }
+        if (player->size == BIG) { trybreakbrick(player->base.x + (TILE_SIZE - 1), player->base.y, false, LEFT); }
         bumpbrick(player->base.x + (TILE_SIZE - 1), player->base.y);
         tryemptybox(player->base.x + (TILE_SIZE - 1), player->base.y, LEFT);
       }
@@ -677,7 +677,7 @@ void World::collision_handler()
   for (size_t index : bullets.get_active_indices())
   {
     Bullet* bullet = bullets.get_object_at(index);
-    if (bullet && !bullet->removable)
+    if (!bullet->removable)
     {
       m_spatial_grid->add_bullet(bullet);
     }
@@ -686,10 +686,7 @@ void World::collision_handler()
   for (size_t index : upgrades.get_active_indices())
   {
     Upgrade* upgrade = upgrades.get_object_at(index);
-    if (upgrade)
-    {
-      m_spatial_grid->add_upgrade(upgrade);
-    }
+    m_spatial_grid->add_upgrade(upgrade);
   }
 
   // Bullet vs BadGuy collisions
