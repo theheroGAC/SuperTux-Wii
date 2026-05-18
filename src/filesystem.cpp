@@ -252,7 +252,8 @@ void st_directory_setup(void)
   const char* home;
 
   /* Get home directory from $HOME variable or use current directory (".") */
-  home = getenv("HOME") ? getenv("HOME") : ".";
+  const char* home_env = getenv("HOME");
+  home = (home_env != nullptr) ? home_env : ".";
 
   st_dir = std::string(home) + "/.supertux";
 
@@ -278,6 +279,7 @@ void st_directory_setup(void)
     bool path_retrieved = false;
 
 #if defined(__linux__)
+    // readlink does not NUL-terminate; we do so explicitly.
     ssize_t len = readlink("/proc/self/exe", exe_file, sizeof(exe_file) - 1);
     if (len > 0)
     {
@@ -301,15 +303,18 @@ void st_directory_setup(void)
 
     if (path_retrieved)
     {
-      char resolved_path[PATH_MAX];
-
-      if (realpath(exe_file, resolved_path) == nullptr)
+      /* Use NULL destination so realpath allocates the buffer to avoid
+       * potential overflow if the resolved path exceeds PATH_MAX. */
+      char* resolved_raw = realpath(exe_file, nullptr);
+      if (resolved_raw == nullptr)
       {
         puts("Couldn't resolve executable path, using default: " DATA_PREFIX);
         datadir = DATA_PREFIX;
       }
       else
       {
+        std::string resolved_path(resolved_raw);
+        free(resolved_raw);
         fs::path exedir = fs::path(resolved_path).parent_path();
         const std::vector<fs::path> search_paths = {
             exedir / "data",
