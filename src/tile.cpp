@@ -190,7 +190,7 @@ void TileManager::load_tileset(const std::string& filename)
           tilegroups_ = new std::set<TileGroup>;
         }
 
-        tilegroups_->insert(new_group).first;
+        tilegroups_->insert(new_group);
       }
       else if (strcmp(lisp_symbol(lisp_car(element)), "properties") == 0)
       {
