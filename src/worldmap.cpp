@@ -1193,7 +1193,6 @@ void WorldMap::update(float delta)
         bool coffee = session->get_world()->get_tux()->got_coffee;
         bool big = session->get_world()->get_tux()->size == BIG;
         delete session;
-        session = 0;
 
         handleLevelCompletion(result, coffee, big, level);
 
