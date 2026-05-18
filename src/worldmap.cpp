@@ -531,6 +531,7 @@ WorldMap::WorldMap()
   current_ = this;
   tux = nullptr;
   quit = false;
+  level_sprite = nullptr;
   tile_manager = new TileManager();
   m_renderBatcher = new RenderBatcher();
 

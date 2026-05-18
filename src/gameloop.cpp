@@ -62,11 +62,12 @@ GameSession* GameSession::current_ = nullptr;
  */
 GameSession::GameSession(const std::string& subset_, int levelnb_, int mode):
           st_gl_mode(mode), levelnb(levelnb_), fps_fps(0.0f),
-          last_update_time(0), end_sequence(NO_ENDSEQUENCE), subset(subset_)
+          last_update_time(0), update_time(0), pause_menu_frame(0), debug_fps(0),
+          end_sequence(NO_ENDSEQUENCE), last_x_pos(0.0f),
+          game_pause(false), subset(subset_)
 {
   current_ = this;
   global_frame_counter = 0;
-  game_pause = false;
 
   fps_timer.init(true);
   frame_timer.init(true);
