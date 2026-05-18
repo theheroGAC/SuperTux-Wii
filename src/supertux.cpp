@@ -3,7 +3,7 @@
 //
 // SuperTux - SuperTux
 // Copyright (C) 2004 Tobias Glaesser <tobi.web@gmx.de>
-// Copyright (C) 2025 DeltaResero
+// Copyright (C) 2025-2026 DeltaResero
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
