@@ -109,7 +109,7 @@ Text::Text(std::string_view file, int kind_, int w_, int h_)
   // Apply shadow effect by modifying pixel alpha values
   for (int i = 0; i < pixels; ++i)
   {
-    Uint32 *p = (Uint32 *)conv->pixels + i;
+    Uint32 *p = reinterpret_cast<Uint32*>(conv->pixels) + i;
     *p = *p & conv->format->Amask;  // Keep only the alpha channel
   }
 

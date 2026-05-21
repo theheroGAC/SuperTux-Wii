@@ -296,7 +296,7 @@ void Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
   switch (c_object)
   {
     case CO_PLAYER:
-      pplayer = (Player*)p_c_object;
+      pplayer = static_cast<Player*>(p_c_object);
 
       if (kind == UPGRADE_GROWUP)
       {
