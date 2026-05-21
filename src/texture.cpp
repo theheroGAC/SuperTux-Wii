@@ -606,8 +606,8 @@ SurfaceOpenGL::SurfaceOpenGL(std::string_view file, int x, int y, int w, int h, 
   sdl_surface = sdl_surface_part_from_file(file, x, y, w, h, use_alpha);
   create_gl(sdl_surface, &gl_texture);
 
-  w = sdl_surface->w;
-  h = sdl_surface->h;
+  this->w = sdl_surface->w;
+  this->h = sdl_surface->h;
 }
 
 /**
