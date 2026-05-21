@@ -916,15 +916,20 @@ namespace
 
     while (!work_stack.empty() && operations++ < MAX_PARSE_OPERATIONS)
     {
-      WorkItem& item = work_stack.back();
+      // Use an index rather than a reference (push_back can reallocate)
+      // the vector, invalidating any reference into it.
+      const size_t back_idx = work_stack.size() - 1;
 
-      if (!item.obj_ptr || !(*item.obj_ptr))
+      // obj_ptr points into pool-allocated memory, stable across reallocations.
+      lisp_object_t** const obj_ptr = work_stack[back_idx].obj_ptr;
+
+      if (!obj_ptr || !(*obj_ptr))
       {
         work_stack.pop_back();
         continue;
       }
 
-      int obj_type = lisp_type(*item.obj_ptr);
+      int obj_type = lisp_type(*obj_ptr);
 
       if (obj_type == LISP_TYPE_PATTERN_CONS)
       {
@@ -947,12 +952,12 @@ namespace
           { nullptr, 0 }
         };
 
-        if (lisp_type(lisp_car(*item.obj_ptr)) != LISP_TYPE_SYMBOL)
+        if (lisp_type(lisp_car(*obj_ptr)) != LISP_TYPE_SYMBOL)
         {
           return 0;
         }
 
-        char* type_name = lisp_symbol(lisp_car(*item.obj_ptr));
+        char* type_name = lisp_symbol(lisp_car(*obj_ptr));
         if (!type_name)
         {
           return 0;
@@ -973,7 +978,7 @@ namespace
         {
           return 0;
         }
-        if (type != LISP_PATTERN_OR && lisp_cdr(*item.obj_ptr) != nullptr)
+        if (type != LISP_PATTERN_OR && lisp_cdr(*obj_ptr) != nullptr)
         {
           return 0;
         }
@@ -982,26 +987,38 @@ namespace
 
         if (type == LISP_PATTERN_OR)
         {
-          lisp_object_t* cdr = lisp_cdr(*item.obj_ptr);
-          work_stack.push_back({&cdr, false, false});
-          pattern->v.pattern.sub = cdr;
-          (*item.obj_ptr)->v.cons.cdr = lisp_nil();
-        }
+          // Detach the sub-pattern list and attach it to the new pattern node.
+          // Pop first, then push one compilation job per sub-list element so
+          // each sub-pattern car is compiled in a subsequent iteration.
+          lisp_object_t* sub_list = lisp_cdr(*obj_ptr);
+          pattern->v.pattern.sub = sub_list;
+          (*obj_ptr)->v.cons.cdr = lisp_nil();
+          *obj_ptr = pattern;
 
-        *item.obj_ptr = pattern;
-        work_stack.pop_back();
+          work_stack.pop_back();
+          for (lisp_object_t* sub = sub_list; sub != nullptr; sub = lisp_cdr(sub))
+          {
+            work_stack.push_back({&sub->v.cons.car, false, false});
+          }
+        }
+        else
+        {
+          *obj_ptr = pattern;
+          work_stack.pop_back();
+        }
       }
       else if (obj_type == LISP_TYPE_CONS)
       {
-        if (!item.processed_car)
+        if (!work_stack[back_idx].processed_car)
         {
-          item.processed_car = true;
-          work_stack.push_back({&(*item.obj_ptr)->v.cons.car, false, false});
+          // Set the flag before push_back in case the vector reallocates.
+          work_stack[back_idx].processed_car = true;
+          work_stack.push_back({&(*obj_ptr)->v.cons.car, false, false});
         }
-        else if (!item.processed_cdr)
+        else if (!work_stack[back_idx].processed_cdr)
         {
-          item.processed_cdr = true;
-          work_stack.push_back({&(*item.obj_ptr)->v.cons.cdr, false, false});
+          work_stack[back_idx].processed_cdr = true;
+          work_stack.push_back({&(*obj_ptr)->v.cons.cdr, false, false});
         }
         else
         {
