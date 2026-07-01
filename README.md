@@ -8,6 +8,7 @@
 
 ```text
 Ported by: scanff & Arikado
+PS Vita port by: theheroGAC
 Updated by: DeltaResero
 Type: Platform game
 Version: 0.1.4-wii-d.05
@@ -233,6 +234,46 @@ method above for testing.
 Support for other platforms (Windows, macOS, BSD) is currently outside the scope of this
 repository, as the primary focus is the Wii hardware. Given the standard CMake infrastructure,
 adapting the build system for other platforms should be fairly trivial.
+<br>
+
+### How to Build: PlayStation Vita Build
+
+To build the game for the PlayStation Vita, make sure you have the **VitaSDK** toolchain set up.
+
+1. **Prerequisites:**
+   Ensure you have the following libraries installed in your VitaSDK (they are usually available via the package manager `vdpm` or pre-packaged):
+   - `SDL2`
+   - `SDL2_image`
+   - `SDL2_mixer`
+   - `physfs`
+   - `xmp`
+   - `libvorbis` / `libogg`
+   - `libwebp` / `libwebpdemux` / `sharpyuv`
+   - `libmodplug`
+   - `opusfile` / `opus`
+   - `libpng` / `libjpeg` / `zlib`
+
+2. **Configure using CMake and the VitaSDK Toolchain:**
+   Create a build directory and run CMake specifying the `vita.toolchain.cmake` file:
+   ```bash
+   mkdir build_vita
+   cd build_vita
+   cmake -DCMAKE_TOOLCHAIN_FILE="/c/msys64/usr/local/vitasdk/share/vita.toolchain.cmake" ..
+   ```
+   *(Adjust the toolchain path to your local VitaSDK installation, e.g. `$VITASDK/share/vita.toolchain.cmake` on Linux/MSYS2).*
+
+3. **Build and package:**
+   ```bash
+   make -j$(nproc)
+   ```
+   This will compile the source code, link the Vita hardware stubs, and package everything (including the `data` assets directory and LiveArea bubble graphics) into a deployable **`SuperTux-PSVITA.vpk`** file in your build folder.
+
+4. **Install on PS Vita:**
+   - Transfer the generated `.vpk` to your PS Vita.
+   - Install the VPK using **VitaShell**.
+   - Launch the game from the LiveArea screen.
+   *(Saves and configurations will be automatically managed in `ux0:data/supertux/`)*
+
 <br>
 
 ### License
