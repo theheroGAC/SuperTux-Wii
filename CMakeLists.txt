@@ -41,20 +41,27 @@ endif()
 # Enforce C++20
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_EXTENSIONS ON)
 
-# Detect Wii build
+# Detect Wii or Vita build
 if(CMAKE_SYSTEM_NAME STREQUAL "NintendoWii")
   set(ENABLE_WII ON)
+  set(ENABLE_VITA OFF)
   message(STATUS "Configuring for Nintendo Wii")
   add_compile_definitions(__WII__ GEKKO)
+elseif(VITA)
+  set(ENABLE_WII OFF)
+  set(ENABLE_VITA ON)
+  message(STATUS "Configuring for PlayStation Vita")
+  add_compile_definitions(__VITA__)
 else()
   set(ENABLE_WII OFF)
+  set(ENABLE_VITA OFF)
 endif()
 
 # Cross-compilation safety check
-if(CMAKE_CROSSCOMPILING AND NOT ENABLE_WII)
-  message(WARNING "Cross-compiling detected but not for Wii. "
+if(CMAKE_CROSSCOMPILING AND NOT ENABLE_WII AND NOT ENABLE_VITA)
+  message(WARNING "Cross-compiling detected but not for Wii or Vita. "
                   "If this is unintentional, please check your toolchain file.")
 endif()
 
@@ -245,6 +252,92 @@ if(ENABLE_WII)
     VERBATIM
   )
 
+elseif(ENABLE_VITA)
+  # ============================================================================
+  # PlayStation Vita Build BY theheroGAC
+  # ============================================================================
+  
+  # Include Vita SDK cmake helper stubs
+  include("${VITASDK}/share/vita.cmake" REQUIRED)
+
+  set(VITA_APP_NAME "SuperTux Classic")
+  set(VITA_TITLEID  "SUPERTUX1")
+  set(VITA_VERSION  "01.04")
+
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -fno-lto -Wl,-z,noexecstack")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,-q -Wall -fno-lto -Wl,-z,noexecstack")
+
+
+  set(CMAKE_C_FLAGS_RELEASE "-O3 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard -ftree-vectorize -ffast-math -DNDEBUG")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O3 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard -ftree-vectorize -ffast-math -DNDEBUG")
+
+  
+  add_definitions(-DNOOPENGL)
+  set(RENDERER_STATUS "SDL2 Renderer (Hardware Accelerated)")
+
+  add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+  target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_BINARY_DIR}  # For config.h
+    ${CMAKE_SOURCE_DIR}/src
+    "${VITASDK}/arm-vita-eabi/include"
+    "${VITASDK}/arm-vita-eabi/include/SDL2"
+  )
+
+  target_link_libraries(${PROJECT_NAME} PRIVATE
+    SDL2_image
+    SDL2_mixer
+    SDL2
+    vorbisfile
+    vorbis
+    ogg
+    physfs
+    jpeg
+    png
+    webpdemux
+    webp
+    sharpyuv
+    modplug
+    opusfile
+    opus
+    z
+    m
+    pthread
+    xmp
+    # Vita stubs
+    SceAppMgr_stub
+    SceCtrl_stub
+    SceDisplay_stub
+    SceGxm_stub
+    ScePower_stub
+    SceSysmodule_stub
+    SceCommonDialog_stub
+    SceFios2_stub
+    SceAudio_stub
+    SceAudioIn_stub
+    SceMotion_stub
+    SceTouch_stub
+    SceHid_stub
+    SceIofilemgr_stub
+    SceIme_stub
+  )
+
+  vita_create_self(eboot.bin ${PROJECT_NAME} UNSAFE)
+
+  # Package VPK with LiveArea assets and the data directory
+  vita_create_vpk(SuperTux-PSVITA.vpk
+    ${VITA_TITLEID}
+    eboot.bin
+    VERSION ${VITA_VERSION}
+    NAME ${VITA_APP_NAME}
+
+    FILE sce_sys/icon0.png sce_sys/icon0.png
+    FILE sce_sys/livearea/contents/bg.png sce_sys/livearea/contents/bg.png
+    FILE sce_sys/livearea/contents/startup.png sce_sys/livearea/contents/startup.png
+    FILE sce_sys/livearea/contents/template.xml sce_sys/livearea/contents/template.xml
+    FILE ${CMAKE_SOURCE_DIR}/data data
+  )
+
 else()
   # ============================================================================
   # Desktop Linux/Windows Build
@@ -351,6 +444,9 @@ message(STATUS "Renderer          : ${RENDERER_STATUS}")
 if(ENABLE_WII)
   message(STATUS "Toolchain         : devkitPPC")
   message(STATUS "Output            : build/apps/supertux/")
+elseif(ENABLE_VITA)
+  message(STATUS "Toolchain         : VitaSDK")
+  message(STATUS "Output            : ${CMAKE_CURRENT_BINARY_DIR}/SuperTux-PSVITA.vpk")
 else()
   message(STATUS "Install Prefix    : ${CMAKE_INSTALL_PREFIX}")
   message(STATUS "Distribution      : build/dist/supertux-wii/")
