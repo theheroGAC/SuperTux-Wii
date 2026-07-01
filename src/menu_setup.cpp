@@ -51,10 +51,14 @@ void st_menu(void)
 #ifndef NOOPENGL
   options_menu->additem(MN_TOGGLE, "OpenGL", use_gl, 0, MNID_OPENGL);
 #else
+#ifdef __VITA__
+  options_menu->additem(MN_DEACTIVE, "Hardware Accel (Active)", true, 0, MNID_OPENGL);
+#else
   options_menu->additem(MN_DEACTIVE, "OpenGL (not supported)", use_gl, 0, MNID_OPENGL);
 #endif
-#ifdef __WII__
-  // For Wii, always enable fullscreen and grey out the option
+#endif
+#if defined(__WII__) || defined(__VITA__)
+  // For consoles, always enable fullscreen and grey out the option
   options_menu->additem(MN_DEACTIVE, "Fullscreen (no window mode)", true, 0, MNID_FULLSCREEN);
 #else
   options_menu->additem(MN_TOGGLE, "Fullscreen", use_fullscreen, 0, MNID_FULLSCREEN);

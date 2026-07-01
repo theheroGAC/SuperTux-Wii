@@ -167,10 +167,8 @@ void st_joystick_setup(void)
     /* Open joystick: */
     if (SDL_NumJoysticks() <= 0)
     {
-#ifdef __WII__
-      // On Wii, we effectively always have a joystick (Wiimote) via WPAD.
-      // Even if SDL sees none, we force enabled so config saves correctly
-      // 'joystick 0'.
+#if defined(__WII__) || defined(__VITA__)
+      // On Wii and Vita, we always want to use the controller
       use_joystick = true;
       if (joystick_num < 0)
         joystick_num = 0;
@@ -184,8 +182,7 @@ void st_joystick_setup(void)
       js = SDL_JoystickOpen(joystick_num);
       if (js == nullptr)
       {
-#ifdef __WII__
-        // Ignore open failure on Wii; we use custom polling.
+#if defined(__WII__) || defined(__VITA__)
         use_joystick = true;
 #else
         std::string error_msg = "Warning: Could not open joystick " + std::to_string(joystick_num) + ".\n"
@@ -207,7 +204,7 @@ void st_joystick_setup(void)
 
         if (SDL_JoystickNumButtons(js) < 2)
         {
-#ifdef __WII__
+#if defined(__WII__) || defined(__VITA__)
           use_joystick = true;
 #else
           fprintf(stderr, "Warning: Joystick does not have enough buttons!\n");
@@ -255,7 +252,12 @@ void st_audio_setup(void)
   /* Open sound silently regardless of the value of "use_sound" */
   if (audio_device)
   {
+#ifdef __VITA__
+    // Reduce audio buffer chunk size to 1024 on Vita to minimize audio latency (sound delay)
+    if (open_audio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
+#else
     if (open_audio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+#endif
     {
       /* only print out message if sound or music
          was not disabled at command-line

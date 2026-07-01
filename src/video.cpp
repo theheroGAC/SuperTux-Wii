@@ -257,8 +257,13 @@ void st_toggle_fullscreen(void)
 // SDL2 Renderer Setup
 void st_video_setup_sdl(void)
 {
+#ifdef __VITA__
+  // Use nearest-neighbor filtering to prevent blurred textures and texture seams (lines between tiles) on Vita
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+#else
   // Force linear filtering to match OpenGL's look
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+#endif
 
   // Create hardware accelerated renderer
   renderer = SDL_CreateRenderer(
@@ -276,8 +281,17 @@ void st_video_setup_sdl(void)
     st_abort("Renderer Creation Failed", SDL_GetError());
   }
 
+#ifdef __VITA__
+  // Force 16:9 stretched widescreen on PS Vita by scaling logical 640x480 space to full screen (960x544)
+  int w, h;
+  SDL_GetWindowSize(window, &w, &h);
+  float scale_x = (float)w / SCREEN_W;
+  float scale_y = (float)h / SCREEN_H;
+  SDL_RenderSetScale(renderer, scale_x, scale_y);
+#else
   // Set logical size for resolution independence
   SDL_RenderSetLogicalSize(renderer, SCREEN_W, SCREEN_H);
+#endif
 }
 
 #ifndef NOOPENGL

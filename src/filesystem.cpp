@@ -239,7 +239,24 @@ void st_directory_setup(void)
   #endif
 }
 
-#else // #ifndef __WII__
+#elif defined(__VITA__)
+
+/**
+ * Set SuperTux configuration and save directories (PlayStation Vita specific)
+ */
+void st_directory_setup(void)
+{
+  st_dir = "ux0:data/supertux";
+  datadir = "app0:data";
+  st_save_dir = st_dir + "/save";
+
+  // Ensure writable directories exist on the Vita memory card (ux0:data)
+  fs::create_directories(st_dir.c_str());
+  fs::create_directories(st_save_dir.c_str());
+  fs::create_directories((st_dir + "/levels").c_str());
+}
+
+#else // #ifndef __WII__ and #ifndef __VITA__
 
 /**
  * Set SuperTux configuration and save directories (non HBC Wii)

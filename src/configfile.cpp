@@ -83,8 +83,8 @@ void loadconfig()
   // Parse the config values
   LispReader reader(lisp_cdr(root_obj));
 
-#ifdef __WII__
-  // On Wii Homebrew, fullscreen is mandatory, so we enforce it here.
+#if defined(__WII__) || defined(__VITA__)
+  // On console homebrew, fullscreen is mandatory, so we enforce it here.
   use_fullscreen = true;
   // We read the config value to advance the parser but ignore its value.
   bool dummy_fullscreen_setting;

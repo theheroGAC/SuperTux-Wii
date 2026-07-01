@@ -375,7 +375,32 @@ int st_poll_event(SDL_Event *event)
 
   // Fallback to standard SDL polling for other systems or non-Wii-specific
   // events
-  return SDL_PollEvent(event);
+  int polled = SDL_PollEvent(event);
+#if defined(__VITA__)
+  if (polled)
+  {
+    if (event->type == SDL_JOYBUTTONDOWN || event->type == SDL_JOYBUTTONUP)
+    {
+      if (event->jbutton.button == 11) // Start button
+      {
+        event->jbutton.button = 6;     // Map to pause (Wii Home/Plus)
+      }
+      else if (event->jbutton.button == 10) // Select button
+      {
+        event->jbutton.button = 4;     // Map to back/cancel (Wii Minus)
+      }
+      else if (event->jbutton.button == 4) // L1 button
+      {
+        event->jbutton.button = 14;    // Move out of the way of back/cancel
+      }
+      else if (event->jbutton.button == 5) // R1 button
+      {
+        event->jbutton.button = 15;    // Move out of the way of pause/plus
+      }
+    }
+  }
+#endif
+  return polled;
 }
 
 // EOF

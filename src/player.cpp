@@ -27,12 +27,22 @@ static constexpr int AUTOSCROLL_DEAD_INTERVAL = 300;
 namespace PlayerConstants
 {
 // Jump velocities
+#ifdef __VITA__
+static constexpr float JUMP_VELOCITY_HIGH = -6.8f; // For running jumps (increased for Vita 60 FPS pacing)
+static constexpr float JUMP_VELOCITY_LOW  = -6.2f; // For standing jumps (increased for Vita 60 FPS pacing)
+#else
 static constexpr float JUMP_VELOCITY_HIGH = -5.8f; // For running jumps
 static constexpr float JUMP_VELOCITY_LOW  = -5.2f; // For standing jumps
+#endif
 
 // Enemy bounce velocities
+#ifdef __VITA__
+static constexpr float ENEMY_BOUNCE_VELOCITY_HIGH = -6.0f;
+static constexpr float ENEMY_BOUNCE_VELOCITY_LOW  = -2.5f;
+#else
 static constexpr float ENEMY_BOUNCE_VELOCITY_HIGH = -5.2f; // Bouncing off enemy while holding jump
 static constexpr float ENEMY_BOUNCE_VELOCITY_LOW  = -2.0f; // Bouncing off enemy without holding jump
+#endif
 
 // Skid and friction constants
 static constexpr float SKID_ACCELERATION_MULTIPLIER = 2.5f;
