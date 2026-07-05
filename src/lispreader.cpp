@@ -243,7 +243,7 @@ namespace
         return nullptr;
       }
 
-      size_t len = strnlen(str, MAX_STRING_LENGTH + 1);
+      size_t len = strlen(str);
       if (len > MAX_STRING_LENGTH)
       {
         return nullptr;
