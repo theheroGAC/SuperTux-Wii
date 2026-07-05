@@ -1,9 +1,15 @@
--- SuperTux Wii Edition -
+-- SuperTux PS Vita Edition --
 Milestone 1
 
 
 
--Lead Developer
+-PS Vita Port
+
+	theheroGAC
+
+
+
+-Lead Developer (Wii codebase)
 
 	DeltaResero
 
