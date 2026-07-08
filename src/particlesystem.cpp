@@ -11,7 +11,7 @@
 // (at your option) any later version.
 
 #include "particlesystem.hpp"
-
+#include "render_batcher.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
@@ -109,7 +109,7 @@ void SnowParticleSystem::simulate(float elapsed_time)
  * @param scrolly Vertical scroll offset.
  * @param layer The layer on which the particles should be drawn.
  */
-void SnowParticleSystem::draw(float scrollx, float scrolly, int layer)
+void SnowParticleSystem::draw(float scrollx, float scrolly, int layer, RenderBatcher* batcher)
 {
   for (const auto& particle : particles)
   {
@@ -153,7 +153,14 @@ void SnowParticleSystem::draw(float scrollx, float scrolly, int layer)
       y -= virtual_height;
     }
 
-    particle.texture->draw(x, y);
+    if (batcher)
+    {
+      batcher->add(particle.texture, x + scrollx, y, 0, 0);
+    }
+    else
+    {
+      particle.texture->draw(x, y);
+    }
   }
 }
 
@@ -218,7 +225,7 @@ void CloudParticleSystem::simulate(float elapsed_time)
  * @param scrolly Vertical scroll offset.
  * @param layer The layer on which the particles should be drawn.
  */
-void CloudParticleSystem::draw(float scrollx, float scrolly, int layer)
+void CloudParticleSystem::draw(float scrollx, float scrolly, int layer, RenderBatcher* batcher)
 {
   for (const auto& particle : particles)
   {
@@ -262,7 +269,14 @@ void CloudParticleSystem::draw(float scrollx, float scrolly, int layer)
       y -= virtual_height;
     }
 
-    particle.texture->draw(x, y);
+    if (batcher)
+    {
+      batcher->add(particle.texture, x + scrollx, y, 0, 0);
+    }
+    else
+    {
+      particle.texture->draw(x, y);
+    }
   }
 }
 

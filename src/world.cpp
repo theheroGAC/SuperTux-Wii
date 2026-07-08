@@ -263,19 +263,15 @@ void World::draw_tile_layer(RenderBatcher* batcher, const unsigned int* tile_dat
 
 void World::draw()
 {
-  /* Draw the real background */
-  level->draw_bg();
-
-  /* Draw particle systems (background) */
-  for(auto* p : particle_systems)
-  {
-    p->draw(scroll_x, 0, 0);
-  }
-
-  // Single unified rendering loop - works for both SDL and OpenGL!
   RenderBatcher* batcher = use_gl ? m_renderBatcher.get() : nullptr;
 
-  /* Draw background, interactive, and foreground tiles using the helper */
+  level->draw_bg();
+
+  for(auto* p : particle_systems)
+  {
+    p->draw(scroll_x, 0, 0, batcher);
+  }
+
   draw_tile_layer(batcher, level->bg_tiles.data());
   draw_tile_layer(batcher, level->ia_tiles.data(), true);
 
@@ -403,7 +399,6 @@ void World::draw()
     gold_text->draw(score_str, x_pos, static_cast<int>(score.base.y), 1);
   });
 
-  /* Draw foreground tiles: */
   draw_tile_layer(batcher, level->fg_tiles.data());
 
 #ifndef NOOPENGL
@@ -413,15 +408,15 @@ void World::draw()
   }
 #endif
 
-  /* Draw particle systems (foreground) */
   for(auto* p : particle_systems)
   {
-    p->draw(scroll_x, 0, 1);
+    p->draw(scroll_x, 0, 1, batcher);
   }
 
 #ifndef NOOPENGL
   if (use_gl)
   {
+    m_renderBatcher->flush();
     SurfaceOpenGL::reset_state();
   }
 #endif

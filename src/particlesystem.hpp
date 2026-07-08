@@ -17,6 +17,8 @@
 #include <array>
 #include "texture.hpp"
 
+class RenderBatcher;
+
 // Instead of complex inheritance, we use simple structs.
 // This makes the data layout much more efficient for the CPU.
 struct Particle
@@ -46,7 +48,7 @@ public:
     ParticleSystem();
     virtual ~ParticleSystem() = default;
 
-    virtual void draw(float scrollx, float scrolly, int layer) = 0;
+    virtual void draw(float scrollx, float scrolly, int layer, RenderBatcher* batcher = nullptr) = 0;
     virtual void simulate(float elapsed_time) = 0;
 
 protected:
@@ -60,7 +62,7 @@ public:
     SnowParticleSystem();
     ~SnowParticleSystem() override;
 
-    void draw(float scrollx, float scrolly, int layer) override;
+    void draw(float scrollx, float scrolly, int layer, RenderBatcher* batcher = nullptr) override;
     void simulate(float elapsed_time) override;
 
 private:
@@ -74,7 +76,7 @@ public:
     CloudParticleSystem();
     ~CloudParticleSystem() override;
 
-    void draw(float scrollx, float scrolly, int layer) override;
+    void draw(float scrollx, float scrolly, int layer, RenderBatcher* batcher = nullptr) override;
     void simulate(float elapsed_time) override;
 
 private:
