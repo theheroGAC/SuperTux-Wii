@@ -272,8 +272,8 @@ elseif(ENABLE_VITA)
   set(CMAKE_CXX_FLAGS_RELEASE "-O3 -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard -ftree-vectorize -ffast-math -DNDEBUG")
 
   
-  add_definitions(-DNOOPENGL)
-  set(RENDERER_STATUS "SDL2 Renderer (Hardware Accelerated)")
+  # Enable OpenGL hardware rendering using vitaGL
+  set(RENDERER_STATUS "OpenGL (vitaGL)")
 
   add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
@@ -304,6 +304,13 @@ elseif(ENABLE_VITA)
     m
     pthread
     xmp
+    vitaGL
+    vitashark
+    mathneon
+    SceShaccCg_stub
+    SceShaccCgExt
+    taihen_stub
+    SceKernelDmacMgr_stub
     # Vita stubs
     SceAppMgr_stub
     SceCtrl_stub
@@ -320,6 +327,9 @@ elseif(ENABLE_VITA)
     SceHid_stub
     SceIofilemgr_stub
     SceIme_stub
+    # Link math and thread libraries again at the end for dependencies
+    m
+    pthread
   )
 
   vita_create_self(eboot.bin ${PROJECT_NAME} UNSAFE)
