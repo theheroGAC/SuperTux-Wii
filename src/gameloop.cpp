@@ -617,13 +617,14 @@ void GameSession::process_events()
 
           case SDL_JOYBUTTONDOWN:
           {
-            // JUMP on Wii Remote 'A' (0) and '2' (3)
-            if (event.jbutton.button == 0 || event.jbutton.button == 3)
+            int jump_btn1 = swap_x_and_o ? 1 : 0;
+            int fire_btn1 = swap_x_and_o ? 0 : 1;
+
+            if (event.jbutton.button == jump_btn1 || event.jbutton.button == 3)
             {
               tux.input.up = DOWN;
             }
-            // FIRE on Wii Remote 'B' (1) and '1' (2)
-            else if (event.jbutton.button == 1 || event.jbutton.button == 2)
+            else if (event.jbutton.button == fire_btn1 || event.jbutton.button == 2)
             {
               tux.input.fire = DOWN;
             }
@@ -637,13 +638,14 @@ void GameSession::process_events()
 
           case SDL_JOYBUTTONUP:
           {
-            // JUMP on Wii Remote 'A' (0) and '2' (3)
-            if (event.jbutton.button == 0 || event.jbutton.button == 3)
+            int jump_btn1 = swap_x_and_o ? 1 : 0;
+            int fire_btn1 = swap_x_and_o ? 0 : 1;
+
+            if (event.jbutton.button == jump_btn1 || event.jbutton.button == 3)
             {
               tux.input.up = UP;
             }
-            // FIRE on Wii Remote 'B' (1) and '1' (2)
-            else if (event.jbutton.button == 1 || event.jbutton.button == 2)
+            else if (event.jbutton.button == fire_btn1 || event.jbutton.button == 2)
             {
               tux.input.fire = UP;
             }

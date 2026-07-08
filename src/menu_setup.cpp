@@ -48,11 +48,11 @@ void st_menu(void)
 
   options_menu->additem(MN_LABEL, "Options", 0, nullptr);
   options_menu->additem(MN_HL, "", 0, nullptr);
+#ifdef __VITA__
+  options_menu->additem(MN_DEACTIVE, "vitaGL Engine", true, 0, MNID_OPENGL);
+#else
 #ifndef NOOPENGL
   options_menu->additem(MN_TOGGLE, "OpenGL", use_gl, 0, MNID_OPENGL);
-#else
-#ifdef __VITA__
-  options_menu->additem(MN_DEACTIVE, "Hardware Accel (Active)", true, 0, MNID_OPENGL);
 #else
   options_menu->additem(MN_DEACTIVE, "OpenGL (not supported)", use_gl, 0, MNID_OPENGL);
 #endif
@@ -62,6 +62,9 @@ void st_menu(void)
   options_menu->additem(MN_DEACTIVE, "Fullscreen (no window mode)", true, 0, MNID_FULLSCREEN);
 #else
   options_menu->additem(MN_TOGGLE, "Fullscreen", use_fullscreen, 0, MNID_FULLSCREEN);
+#endif
+#ifdef __VITA__
+  options_menu->additem(MN_TOGGLE, "Swap X / O", swap_x_and_o, 0, MNID_SWAP_XO);
 #endif
 
   if (audio_device)

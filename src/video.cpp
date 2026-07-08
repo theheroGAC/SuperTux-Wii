@@ -18,7 +18,11 @@
 #include <SDL_video.h>
 
 #ifndef NOOPENGL
+#ifdef __VITA__
+#include <vitaGL.h>
+#else
 #include <GL/gl.h>
+#endif
 #endif
 
 #include "globals.hpp"
@@ -47,7 +51,9 @@ void st_video_cleanup(void)
   // Destroy OpenGL context if it exists
   if (gl_context)
   {
+#ifndef __VITA__
     SDL_GL_DeleteContext(gl_context);
+#endif
     gl_context = nullptr;
   }
 #endif
@@ -76,6 +82,14 @@ void st_video_cleanup(void)
  */
 void st_video_setup(void)
 {
+#if defined(__VITA__) && !defined(NOOPENGL)
+  if (use_gl)
+  {
+    vglInit(16 * 1024 * 1024);
+    vglWaitVblankStart(GL_TRUE);
+  }
+#endif
+
   /* Init SDL Video: */
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
   {
@@ -97,10 +111,12 @@ void st_video_setup(void)
     window_flags |= SDL_WINDOW_FULLSCREEN;
 
 #ifndef NOOPENGL
+#ifndef __VITA__
   if (use_gl)
   {
     window_flags |= SDL_WINDOW_OPENGL;
   }
+#endif
 #endif
 
   // Create the window
@@ -254,14 +270,11 @@ void st_toggle_fullscreen(void)
  * Configures the video mode using SDL (Software Rendering).
  * This function is called when OpenGL is not available or not selected.
  */
-// SDL2 Renderer Setup
 void st_video_setup_sdl(void)
 {
 #ifdef __VITA__
-  // Use nearest-neighbor filtering to prevent blurred textures and texture seams (lines between tiles) on Vita
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
 #else
-  // Force linear filtering to match OpenGL's look
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 #endif
 
@@ -282,14 +295,12 @@ void st_video_setup_sdl(void)
   }
 
 #ifdef __VITA__
-  // Force 16:9 stretched widescreen on PS Vita by scaling logical 640x480 space to full screen (960x544)
   int w, h;
   SDL_GetWindowSize(window, &w, &h);
   float scale_x = (float)w / SCREEN_W;
   float scale_y = (float)h / SCREEN_H;
   SDL_RenderSetScale(renderer, scale_x, scale_y);
 #else
-  // Set logical size for resolution independence
   SDL_RenderSetLogicalSize(renderer, SCREEN_W, SCREEN_H);
 #endif
 }
@@ -302,6 +313,9 @@ void st_video_setup_sdl(void)
  */
 void st_video_setup_gl(void)
 {
+#ifdef __VITA__
+  gl_context = (SDL_GLContext)1;
+#else
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
@@ -317,6 +331,7 @@ void st_video_setup_gl(void)
 
   // VSync
   SDL_GL_SetSwapInterval(1);
+#endif
 
   /*
    * Set up OpenGL for 2D rendering.
@@ -341,7 +356,11 @@ void st_video_setup_gl(void)
   glViewport(0, 0, w, h);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
+#ifdef __VITA__
+  glOrtho(0, SCREEN_W, SCREEN_H, 0, -1.0, 1.0);
+#else
   glOrtho(0, w, h, 0, -1.0, 1.0);
+#endif
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();

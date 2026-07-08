@@ -59,6 +59,7 @@ extern bool debug_mode;
 extern bool show_fps;
 extern bool show_mouse;
 extern bool tv_overscan_enabled;
+extern bool swap_x_and_o;
 extern int offset_y;
 
 /** The number of the joystick that will be use in the game */

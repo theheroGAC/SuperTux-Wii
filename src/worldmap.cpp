@@ -865,8 +865,9 @@ void WorldMap::handleJoystickInput(const SDL_Event& event)
     }
     case SDL_JOYBUTTONDOWN:
     {
-      // A button (0) or 2 button (3) will enter level
-      if (event.jbutton.button == 0 || event.jbutton.button == 3)
+      int enter_btn = swap_x_and_o ? 1 : 0;
+      // confirm button will enter level
+      if (event.jbutton.button == enter_btn || event.jbutton.button == 3)
       {
         enter_level = true;
       }

@@ -18,8 +18,12 @@
 #include <string_view>
 #include <memory>
 #ifndef NOOPENGL
+#ifdef __VITA__
+#include <vitaGL.h>
+#else
 #include <GL/gl.h>
 #include <GL/glext.h>
+#endif
 #endif
 
 #include <list>

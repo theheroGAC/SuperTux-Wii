@@ -265,6 +265,10 @@ void Menu::process_options_menu()
 #endif
       break;
 
+    case MNID_SWAP_XO:
+      swap_x_and_o = isToggled(MNID_SWAP_XO);
+      break;
+
     case MNID_SOUND:
       if (use_sound != isToggled(MNID_SOUND))
         use_sound = isToggled(MNID_SOUND);
@@ -817,13 +821,16 @@ void Menu::event(SDL_Event& event)
 
     case SDL_JOYBUTTONDOWN:
     {
-      // CONFIRM action on Wii Remote 'A' (0) and '2' (3)
-      if (event.jbutton.button == 0 || event.jbutton.button == 3)
+      int confirm_btn1 = swap_x_and_o ? 1 : 0;
+      int cancel_btn1 = swap_x_and_o ? 0 : 1;
+
+      // CONFIRM action
+      if (event.jbutton.button == confirm_btn1 || event.jbutton.button == 3)
       {
         menuaction = MENU_ACTION_HIT;
       }
-      // CANCEL action on Wii Remote 'B' (1) and '1' (2)
-      else if (event.jbutton.button == 1 || event.jbutton.button == 2)
+      // CANCEL action
+      else if (event.jbutton.button == cancel_btn1 || event.jbutton.button == 2)
       {
         // On the main menu or top-level pause menus, these buttons do nothing.
         if (this != main_menu && this != game_menu && this != worldmap_menu)

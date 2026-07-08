@@ -42,6 +42,7 @@ static void defaults()
 #endif
   use_sound = true;
   use_music = true;
+  swap_x_and_o = false;
 }
 
 /**
@@ -84,13 +85,10 @@ void loadconfig()
   LispReader reader(lisp_cdr(root_obj));
 
 #if defined(__WII__) || defined(__VITA__)
-  // On console homebrew, fullscreen is mandatory, so we enforce it here.
   use_fullscreen = true;
-  // We read the config value to advance the parser but ignore its value.
   bool dummy_fullscreen_setting;
   reader.read_bool("fullscreen", &dummy_fullscreen_setting);
 #else
-  // For other platforms, respect the user's fullscreen setting.
   reader.read_bool("fullscreen", &use_fullscreen);
 #endif
 
@@ -98,6 +96,7 @@ void loadconfig()
   reader.read_bool("music", &use_music);
   reader.read_bool("show_fps", &show_fps);
   reader.read_bool("tv_overscan", &tv_overscan_enabled);
+  reader.read_bool("swap-x-o", &swap_x_and_o);
 
 #ifdef NOOPENGL
   // When OpenGL is disabled at compile time, always force SDL mode.
@@ -155,6 +154,7 @@ void saveconfig()
     fprintf(config, "\t(music %s)\n", use_music ? "#t" : "#f");
     fprintf(config, "\t(show_fps %s)\n", show_fps ? "#t" : "#f");
     fprintf(config, "\t(tv_overscan %s)\n", tv_overscan_enabled ? "#t" : "#f");
+    fprintf(config, "\t(swap-x-o %s)\n", swap_x_and_o ? "#t" : "#f");
 
     fprintf(config, "\n\t;; either \"opengl\" or \"sdl\"\n");
     fprintf(config, "\t(video \"%s\")\n", use_gl ? "opengl" : "sdl");

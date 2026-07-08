@@ -142,7 +142,11 @@ void swapOpenGLBuffers()
   // context. We reset our tracker here to be safe and ensure the next
   // frame starts with a known state.
   SurfaceOpenGL::reset_state();
+#ifdef __VITA__
+  vglSwapBuffers(GL_FALSE);
+#else
   SDL_GL_SwapWindow(window);
+#endif
 }
 
 #endif // NOOPENGL

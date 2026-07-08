@@ -13,6 +13,11 @@
 
 #ifndef NOOPENGL
 
+#ifdef __VITA__
+#include <vitaGL.h>
+#else
+#include <GL/gl.h>
+#endif
 #include "render_batcher.hpp"
 #include "texture.hpp"
 #include "scene.hpp"

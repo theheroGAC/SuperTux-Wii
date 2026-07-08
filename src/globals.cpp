@@ -63,6 +63,7 @@ bool debug_mode;
 bool show_fps;
 bool show_mouse;
 bool tv_overscan_enabled;
+bool swap_x_and_o = false;
 int offset_y = 0;
 float game_speed = 1.0f;
 
@@ -87,6 +88,9 @@ SDL_Joystick* js;
  */
 Uint8 adjust_joystick_hat(Uint8 hat)
 {
+#ifdef __VITA__
+  return hat;
+#endif
 #ifdef __WII__
   // Dynamically check what is plugged into the expansion port.
   // This handles hot-plugging (plugging/unplugging mid-game).
@@ -375,32 +379,45 @@ int st_poll_event(SDL_Event *event)
 
   // Fallback to standard SDL polling for other systems or non-Wii-specific
   // events
-  int polled = SDL_PollEvent(event);
 #if defined(__VITA__)
-  if (polled)
+  while (true)
   {
+    int polled = SDL_PollEvent(event);
+    if (!polled)
+      return 0;
+
     if (event->type == SDL_JOYBUTTONDOWN || event->type == SDL_JOYBUTTONUP)
     {
-      if (event->jbutton.button == 11) // Start button
+      if (event->jbutton.button == 11)
       {
-        event->jbutton.button = 6;     // Map to pause (Wii Home/Plus)
+        event->jbutton.button = 6;
+        return 1;
       }
-      else if (event->jbutton.button == 10) // Select button
+      else if (event->jbutton.button == 10)
       {
-        event->jbutton.button = 4;     // Map to back/cancel (Wii Minus)
+        event->jbutton.button = 4;
+        return 1;
       }
-      else if (event->jbutton.button == 4) // L1 button
+      else if (event->jbutton.button == 6 || event->jbutton.button == 7 || event->jbutton.button == 8 || event->jbutton.button == 9)
       {
-        event->jbutton.button = 14;    // Move out of the way of back/cancel
+        continue;
       }
-      else if (event->jbutton.button == 5) // R1 button
+      else if (event->jbutton.button == 4)
       {
-        event->jbutton.button = 15;    // Move out of the way of pause/plus
+        event->jbutton.button = 14;
+        return 1;
+      }
+      else if (event->jbutton.button == 5)
+      {
+        event->jbutton.button = 15;
+        return 1;
       }
     }
+    return 1;
   }
+#else
+  return SDL_PollEvent(event);
 #endif
-  return polled;
 }
 
 // EOF

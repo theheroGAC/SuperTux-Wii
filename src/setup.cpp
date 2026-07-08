@@ -253,7 +253,6 @@ void st_audio_setup(void)
   if (audio_device)
   {
 #ifdef __VITA__
-    // Reduce audio buffer chunk size to 1024 on Vita to minimize audio latency (sound delay)
     if (open_audio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
 #else
     if (open_audio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
