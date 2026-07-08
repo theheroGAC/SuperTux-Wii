@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DeltaResero/SuperTux-Wii/master/data/images/title/logo.png" alt="SuperTux-Wii">
+  <img src="https://github.com/theheroGAC/SuperTux-Wii/blob/main/data/images/title/logo.png" alt="SuperTux-PsVita">
 </p>
 
 <br><br>
