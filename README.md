@@ -4,7 +4,7 @@
 
 <br><br>
 
-### Wii port of the free open source game SuperTux Classic (Milestone 1)
+### Wii/PSVITA port of the free open source game SuperTux Classic (Milestone 1)
 
 ```text
 Ported by: scanff & Arikado
